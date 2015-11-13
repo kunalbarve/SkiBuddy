@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.parse.*;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -19,6 +21,9 @@ public class MainActivity extends AppCompatActivity{
 
         if(session.checkLogin()){
             setContentView(R.layout.activity_main);
+            /*ParseObject testObject = new ParseObject("TestObject");
+            testObject.put("foo", "bar");
+            testObject.saveInBackground();*/
         }else{
             finish();
         }

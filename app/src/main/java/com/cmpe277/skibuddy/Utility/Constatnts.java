@@ -9,5 +9,9 @@ public class Constatnts {
 
     public static final String TAG = "SKI_BUDDY";
 
+    public static final String APPLICATION_ID = "izbJWB47uGuKbeLBqTHdSdQnw6vFCHBODnjupYsL";
+
+    public static final String CLIENT_KEY = "ap2MyQZURlrjAe9GQ7o8IhW1KORxsLki24D5rgLg";
+
     public static final String SCOPE_STRING = "oauth2:" + Scopes.PROFILE + " " + Scopes.EMAIL;
 }
