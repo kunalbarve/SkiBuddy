@@ -1,5 +1,7 @@
 package com.cmpe277.skibuddy.Models;
 
+import java.util.Date;
+
 /**
  * Created by knbarve on 11/30/15.
  */
@@ -8,9 +10,9 @@ public class Event {
     private String id;
     private String name;
     private String description;
-    private String startDate;
+    private Date startDate;
     private String startTime;
-    private String endDate;
+    private Date endDate;
     private String endTime;
 
     public String getId() {
@@ -37,11 +39,11 @@ public class Event {
         this.description = description;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
@@ -53,11 +55,11 @@ public class Event {
         this.startTime = startTime;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
