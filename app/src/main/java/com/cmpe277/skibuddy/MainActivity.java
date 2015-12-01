@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.parse.*;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SessionManager session;
 
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity{
         }else{
             finish();
         }
+
+        Button dashboardButton = (Button)findViewById(R.id.dashboardButton);
+        dashboardButton.setOnClickListener(this);
     }
 
     @Override
@@ -51,5 +56,16 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId())
+        {
+            case R.id.dashboardButton :
+                Intent intent = new Intent(this.getApplicationContext(), DashboardActiity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
