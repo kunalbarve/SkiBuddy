@@ -23,15 +23,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(session.checkLogin()){
             setContentView(R.layout.activity_main);
-            /*ParseObject testObject = new ParseObject("TestObject");
-            testObject.put("foo", "bar");
-            testObject.saveInBackground();*/
+            Button dashboardButton = (Button)findViewById(R.id.dashboardButton);
+            dashboardButton.setOnClickListener(this);
         }else{
             finish();
         }
-
-        Button dashboardButton = (Button)findViewById(R.id.dashboardButton);
-        dashboardButton.setOnClickListener(this);
     }
 
     @Override

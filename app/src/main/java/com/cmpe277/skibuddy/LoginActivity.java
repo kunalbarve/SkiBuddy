@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.cmpe277.skibuddy.Models.User;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -19,6 +21,7 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -104,9 +107,14 @@ public class LoginActivity extends AppCompatActivity implements
     public void onConnected(Bundle bundle) {
         mShouldResolve = false;
         if(!session.isLoggedIn() && session.isDisconnected()){
-            session.setIsDisconnected(false);
-            session.createLoginSession("User", "");
-            finish();
+            User user = getUserDetails();
+            if(user != null){
+                session.setIsDisconnected(false);
+                session.createLoginSession(user);
+
+
+                finish();
+            }
             //new GetAccessToken().execute("");
         }else{
             onSignOutClicked();
@@ -169,5 +177,41 @@ public class LoginActivity extends AppCompatActivity implements
             return accessToken;
         }
 
+    }
+
+    private User getUserDetails(){
+        User user = null;
+        try{
+            if (Plus.AccountApi.getAccountName(mGoogleApiClient) != null && Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+                user = new User();
+
+                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                user.setUserId(email);
+
+                Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+
+                if(person.hasDisplayName())
+                    user.setUserName(person.getDisplayName());
+
+                if(person.hasTagline())
+                    user.setTagLine(person.getTagline());
+
+                if(person.hasImage())
+                    user.setImage(person.getImage().getUrl());
+
+                if(person.hasUrl())
+                    user.setUrl(person.getUrl());
+
+
+                Log.d(Constatnts.TAG, user.toString());
+
+            }else{
+                Toast.makeText(getApplicationContext(), "User details are not available.", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            Log.e(Constatnts.TAG, e.getMessage());
+            Toast.makeText(getApplicationContext(), "Not able to fetch user details.", Toast.LENGTH_SHORT).show();
+        }
+        return user;
     }
 }

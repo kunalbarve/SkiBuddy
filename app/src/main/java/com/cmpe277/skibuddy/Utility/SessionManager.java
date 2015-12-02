@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.cmpe277.skibuddy.LoginActivity;
 import com.cmpe277.skibuddy.MainActivity;
+import com.cmpe277.skibuddy.Models.User;
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 public class SessionManager {
@@ -25,6 +26,12 @@ public class SessionManager {
 
     public static final String KEY_EMAIL = "EMAIL";
 
+    public static final String KEY_TAG_LINE = "TAG_LINE";
+
+    public static final String KEY_PROFILE_URL = "PROFILE_URL";
+
+    public static final String KEY_IMAGE_URL = "IMAGE_URL";
+
     private static final String IS_DISCONNECTED = "IS_DISCONNECTED";
 
     private static final String TOKEN = "TOKEN";
@@ -35,10 +42,13 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String name, String email) {
+    public void createLoginSession(User user) {
         editor.putBoolean(IS_LOGGED_IN, true);
-        editor.putString(KEY_NAME, name);
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_NAME, user.getUserName());
+        editor.putString(KEY_EMAIL, user.getUserId());
+        editor.putString(KEY_TAG_LINE, user.getTagLine());
+        editor.putString(KEY_PROFILE_URL, user.getUrl());
+        editor.putString(KEY_IMAGE_URL, user.getImage());
         editor.commit();
 
         Intent i = new Intent(_context, MainActivity.class);
@@ -90,9 +100,21 @@ public class SessionManager {
         editor.remove(IS_LOGGED_IN);
         editor.remove(KEY_NAME);
         editor.remove(KEY_EMAIL);
+        editor.remove(KEY_TAG_LINE);
+        editor.remove(KEY_PROFILE_URL);
+        editor.remove(KEY_IMAGE_URL);
         editor.remove(TOKEN);
         editor.commit();
+    }
 
+    public User getLoggedInUserDetails(){
+        User user = new User();
+        user.setUserId(pref.getString(KEY_EMAIL, ""));
+        user.setUserName(pref.getString(KEY_NAME, ""));
+        user.setImage(pref.getString(KEY_IMAGE_URL, ""));
+        user.setTagLine(pref.getString(KEY_TAG_LINE, ""));
+        user.setUrl(pref.getString(KEY_PROFILE_URL, ""));
+        return user;
     }
 
     public boolean isLoggedIn() {
