@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.cmpe277.skibuddy.Models.User;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
@@ -206,11 +207,11 @@ public class LoginActivity extends AppCompatActivity implements
                 Log.d(Constatnts.TAG, user.toString());
 
             }else{
-                Toast.makeText(getApplicationContext(), "User details are not available.", Toast.LENGTH_SHORT).show();
+                Utilities.shortMsg(getApplicationContext(), "User details are not available.");
             }
         }catch (Exception e){
             Log.e(Constatnts.TAG, e.getMessage());
-            Toast.makeText(getApplicationContext(), "Not able to fetch user details.", Toast.LENGTH_SHORT).show();
+            Utilities.shortMsg(getApplicationContext(), "Not able to fetch user details.");
         }
         return user;
     }
