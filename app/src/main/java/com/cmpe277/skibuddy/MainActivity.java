@@ -1,15 +1,18 @@
 package com.cmpe277.skibuddy;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
+import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
-import com.parse.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,8 +26,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(session.checkLogin()){
             setContentView(R.layout.activity_main);
-            Button dashboardButton = (Button)findViewById(R.id.dashboardButton);
-            dashboardButton.setOnClickListener(this);
+//            Button dashboardButton = (Button)findViewById(R.id.dashboardButton);
+//            dashboardButton.setOnClickListener(this);
+
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+            tabLayout.addTab(tabLayout.newTab().setText("Dashboard"));
+            tabLayout.addTab(tabLayout.newTab().setText("Profile"));
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+            final TabsPageAdapter adapter = new TabsPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+            viewPager.setAdapter(adapter);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                    Log.d(Constatnts.TAG, "My Tab's Position" + tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
         }else{
             finish();
         }
