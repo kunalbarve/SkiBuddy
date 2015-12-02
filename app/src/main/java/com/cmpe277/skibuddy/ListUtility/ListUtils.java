@@ -1,4 +1,4 @@
-package com.cmpe277.skibuddy.Utility;
+package com.cmpe277.skibuddy.ListUtility;
 
 import android.view.View;
 import android.view.ViewGroup;
