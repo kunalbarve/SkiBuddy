@@ -6,6 +6,13 @@ android {
     buildToolsVersion "23.0.1"
     useLibrary 'org.apache.http.legacy'
 
+
+    signingConfigs {
+        debug {
+            storeFile file("debugcertificates/debug.keystore")
+        }
+    }
+
     defaultConfig {
         applicationId "com.cmpe277.skibuddy"
         minSdkVersion 14
