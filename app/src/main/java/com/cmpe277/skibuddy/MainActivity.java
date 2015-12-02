@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     viewPager.setCurrentItem(tab.getPosition());
-                    Log.d(Constatnts.TAG, "My Tab's Position" + tab.getPosition());
                 }
 
                 @Override
@@ -93,10 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.dashboardButton :
-                Intent intent = new Intent(this.getApplicationContext(), DashboardActiity.class);
-                startActivity(intent);
-                break;
+
         }
     }
 }
