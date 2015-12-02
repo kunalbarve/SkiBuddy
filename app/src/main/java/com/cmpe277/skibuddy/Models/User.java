@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by knbarve on 11/30/15.
  */
-public class User {
+public class User{
 
     private String userId = "";
     private String userName = "";

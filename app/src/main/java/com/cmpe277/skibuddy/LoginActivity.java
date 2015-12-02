@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cmpe277.skibuddy.DAOs.UserDao;
 import com.cmpe277.skibuddy.Models.User;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
@@ -23,6 +24,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -203,8 +206,11 @@ public class LoginActivity extends AppCompatActivity implements
                 if(person.hasUrl())
                     user.setUrl(person.getUrl());
 
+                user.setLocationUpdateTime(new Date());
 
                 Log.d(Constatnts.TAG, user.toString());
+
+                UserDao.checkAndUpdateUser(user);
 
             }else{
                 Utilities.shortMsg(getApplicationContext(), "User details are not available.");
