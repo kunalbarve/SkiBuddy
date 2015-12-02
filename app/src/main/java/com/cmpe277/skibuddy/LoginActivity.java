@@ -115,8 +115,6 @@ public class LoginActivity extends AppCompatActivity implements
             if(user != null){
                 session.setIsDisconnected(false);
                 session.createLoginSession(user);
-
-
                 finish();
             }
             //new GetAccessToken().execute("");
