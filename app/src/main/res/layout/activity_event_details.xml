@@ -14,19 +14,20 @@
         android:paddingTop="20dp">
 
         <Button
-            android:id="@+id/acceptInvitationButton"
+            android:id="@+id/subscribeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:background="@drawable/edit_style"
             android:padding="15dp"
-            android:text="Accept Invitation" />
+            android:text="Subscribe" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/unsubscribeButton"
@@ -36,18 +37,30 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/edit_style"
                 android:padding="15dp"
+                android:layout_weight="0.5"
                 android:text="Unsubscribe" />
 
             <Button
-                android:id="@+id/skitrackerButton"
+                android:id="@+id/addParticipantButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
                 android:background="@drawable/edit_style"
                 android:padding="15dp"
-                android:text="SkiTracker" />
+                android:layout_weight="0.5"
+                android:text="Add Participant" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/skiTrackerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_style"
+            android:padding="15dp"
+            android:text="SkiTracker" />
 
 
         <LinearLayout
@@ -153,6 +166,13 @@
 
         </LinearLayout>
 
+        <ListView
+            android:id="@+id/participantslistView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="#F5F6CE">
+        </ListView>
 
 
     </LinearLayout>
