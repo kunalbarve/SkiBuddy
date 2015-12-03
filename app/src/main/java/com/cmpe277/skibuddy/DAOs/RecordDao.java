@@ -3,6 +3,7 @@ package com.cmpe277.skibuddy.DAOs;
 import android.content.Intent;
 import android.util.Log;
 
+import com.cmpe277.skibuddy.ListUtility.CallbackUtils;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.Models.User;
@@ -14,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,6 +55,38 @@ public class RecordDao {
                     EventDao.getEventDetailAndStartIntent(fetchedRecord.getEventId(), fetchedRecord, listnerForObjects);
                 } else {
                     Log.d("records", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public static void getRecordsForUserId(String userId, final ParseReceiveAsyncObjectListener listnerForObjects){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Record");
+        query.whereEqualTo("userId", userId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.d(Constatnts.TAG, "Came in fetching record details" + objects.size());
+                    ArrayList<Record> recordList = new ArrayList<Record>();
+                    for (ParseObject obj : objects) {
+                        Record record = new Record();
+                        record.setEventName(obj.getString("eventName"));
+                        record.setId(obj.getObjectId());
+                        record.setUserId(obj.getString("userId"));
+                        record.setEventId(obj.getString("eventId"));
+                        record.setDistance(obj.getDouble("distance"));
+                        record.setStartTime(obj.getString("startTime"));
+                        record.setEndTime(obj.getString("endTime"));
+                        record.setPath(obj.getString("path"));
+                        record.setTotalTime(obj.getString("totalTime"));
+                        recordList.add(record);
+                    }
+                    HashMap<String, Object> objectList = new HashMap<String, Object>();
+                    objectList.put("records",recordList);
+                    listnerForObjects.receiveObjects(objectList);
+                } else {
+                    Log.d("events", "Error: " + e.getMessage());
                 }
             }
         });

@@ -57,16 +57,7 @@
         android:id="@+id/skiTrackerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skie Tracker Button" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Display Record"
-        android:id="@+id/displayRecordButton"
-        android:layout_marginTop="80dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:text="Ski Tracker" />
 
     <TextView
         android:layout_width="match_parent"
@@ -74,11 +65,19 @@
         android:gravity="center_vertical"
         android:text="Skiing Records:" />
 
-    <ListView
-        android:id="@+id/recordsView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:background="#B29090"></ListView>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <ListView
+            android:id="@+id/recordsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="#B29090"></ListView>
+
+    </ScrollView>
+
 
 </LinearLayout>
