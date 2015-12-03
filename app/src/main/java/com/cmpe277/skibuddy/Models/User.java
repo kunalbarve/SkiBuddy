@@ -1,11 +1,12 @@
 package com.cmpe277.skibuddy.Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by knbarve on 11/30/15.
  */
-public class User{
+public class User implements Serializable{
 
     private String userId = "";
     private String userName = "";

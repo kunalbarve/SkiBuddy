@@ -1,20 +1,25 @@
 package com.cmpe277.skibuddy.DAOs;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ListView;
 
 import com.cmpe277.skibuddy.ListUtility.EventsAdapter;
 import com.cmpe277.skibuddy.ListUtility.ListUtils;
 import com.cmpe277.skibuddy.Models.Event;
+import com.cmpe277.skibuddy.Models.Record;
+import com.cmpe277.skibuddy.ParseReceiveAsyncObjectListener;
 import com.cmpe277.skibuddy.R;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -122,4 +127,30 @@ public class EventDao {
         });
 
     }
+
+    public static void getEventDetailAndStartIntent(String eventId, final Record recordData, final ParseReceiveAsyncObjectListener listnerForObjects){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        final Event fetchedEvent = new Event();
+        query.getInBackground(eventId, new GetCallback<ParseObject>() {
+            public void done(ParseObject record, ParseException e) {
+                if (e == null) {
+                    fetchedEvent.setId(record.getString("id"));
+                    fetchedEvent.setName(record.getString("eventName"));
+                    fetchedEvent.setDescription(record.getString("description"));
+                    fetchedEvent.setStartDate(record.getDate("startDate"));
+                    fetchedEvent.setStartTime(record.getString("startTime"));
+                    fetchedEvent.setEndDate(record.getDate("endDate"));
+                    fetchedEvent.setEndTime(record.getString("endTime"));
+
+                    HashMap<String, Object> objectMap = new HashMap<String, Object>();
+                    objectMap.put("record", recordData);
+                    objectMap.put("event", fetchedEvent);
+                    listnerForObjects.receiveObjects(objectMap);
+                } else {
+                    Log.d("records", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
 }

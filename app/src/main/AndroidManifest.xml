@@ -41,6 +41,7 @@
             android:name=".SkiTrackerActivity"
             android:label="@string/title_activity_ski_tracker" >
         </activity>
+
         <activity
             android:name=".CreateEvent"
             android:label="@string/title_activity_create_event"
@@ -48,6 +49,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cmpe277.skibuddy.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".DisplayRecordActivity"
+            android:label="@string/title_activity_display_record" >
         </activity>
     </application>
 

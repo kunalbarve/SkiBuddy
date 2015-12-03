@@ -1,11 +1,12 @@
 package com.cmpe277.skibuddy.Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by knbarve on 11/30/15.
  */
-public class Event {
+public class Event implements Serializable{
 
     private String id;
     private String name;

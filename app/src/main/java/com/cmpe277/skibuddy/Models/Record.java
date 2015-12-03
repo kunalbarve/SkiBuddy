@@ -1,9 +1,11 @@
 package com.cmpe277.skibuddy.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by knbarve on 11/30/15.
  */
-public class Record {
+public class Record implements Serializable{
 
     private String id;
     private String userId;
@@ -12,6 +14,8 @@ public class Record {
     private String startTime;
     private String endTime;
     private String path;
+    private String totalTime;
+    private String eventName;
 
     public String getId() {
         return id;
@@ -67,5 +71,21 @@ public class Record {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(String totalTime) {
+        this.totalTime = totalTime;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 }

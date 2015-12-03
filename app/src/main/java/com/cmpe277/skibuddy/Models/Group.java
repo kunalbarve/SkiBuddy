@@ -1,9 +1,11 @@
 package com.cmpe277.skibuddy.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by knbarve on 11/30/15.
  */
-public class Group {
+public class Group implements Serializable{
 
     private String id;
     private String userId;

@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cmpe277.skibuddy.DAOs.RecordDao;
+import com.cmpe277.skibuddy.Models.Record;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -20,12 +22,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SkiTrackerActivity extends FragmentActivity implements
@@ -37,7 +43,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
 
     private final static int GOOGLESERVICE_CONNECTION_FAILURE_RESOLUTION_REQUEST_NUMBER = 7878;
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMap;
 
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
@@ -62,6 +68,19 @@ public class SkiTrackerActivity extends FragmentActivity implements
     //distance
     private TextView distanceTextView;
 
+    //marker position
+    Marker marker;
+
+    //record object
+    Record record;
+
+    //TODO: Change these after integration
+    String eventId = "IdqVu2uXIG";
+    String userId = "qwFARamCPG";
+    String eventName = "berkley ski";
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +91,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
 
         stopButton = (Button)findViewById(R.id.stopButton);
         stopButton.setOnClickListener(this);
+        stopButton.setEnabled(false);
 
         timerTextView = (TextView)findViewById(R.id.textTimer);
         distanceTextView = (TextView)findViewById(R.id.textDistance);
@@ -125,7 +145,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 
     @Override
@@ -140,6 +160,9 @@ public class SkiTrackerActivity extends FragmentActivity implements
             lastLongitude=location.getLongitude();
             lattitudeList.add(lastLattitude);
             longitudeList.add(lastLongitude);
+            MarkerOptions options = new MarkerOptions()
+                    .position(new LatLng(lastLattitude, lastLongitude));
+            marker = mMap.addMarker(options);
             return;
         }
         System.out.println("latt===========> " + location.getLatitude());
@@ -147,10 +170,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        //MarkerOptions options = new MarkerOptions()
-        //        .position(latLng)
-        //       .title("");
-        //mMap.addMarker(options);
+
         PolylineOptions lineOptions = new PolylineOptions()
                 .add(new LatLng(lastLattitude, lastLongitude))
                 .add(new LatLng(currentLatitude, currentLongitude));
@@ -163,6 +183,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
         lastLongitude=currentLongitude;
         lattitudeList.add(lastLattitude);
         longitudeList.add(lastLongitude);
+        marker.setPosition(new LatLng(lastLattitude, lastLongitude));
     }
 
     @Override
@@ -194,7 +215,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        stopLocationTracking();
+        //stopLocationTracking();
     }
 
     @Override
@@ -212,6 +233,13 @@ public class SkiTrackerActivity extends FragmentActivity implements
 
     private void startLocationTracking(){
         setUpMapIfNeeded();
+        record = new Record();
+        //fill record object with starttime
+        String startDateTime = simpleDateFormat.format(new Date());
+        record.setStartTime(startDateTime);
+        record.setUserId(userId);
+        record.setEventId(eventId);
+
         lattitudeList = new ArrayList<Double>();
         longitudeList = new ArrayList<Double>();
         lastLongitude=0.0;
@@ -235,6 +263,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
         //start timer
         startTime = SystemClock.uptimeMillis();
         timerHandler.postDelayed(updateTimerMethod, 0);
+        stopButton.setEnabled(true);
     }
 
 
@@ -243,6 +272,24 @@ public class SkiTrackerActivity extends FragmentActivity implements
         timeSwap += timeInMillies;
         timerHandler.removeCallbacks(updateTimerMethod);
 
+        if(record == null){
+            return;
+        }
+
+        //fill record object
+        record.setDistance(traveledDistance);
+        record.setTotalTime(timerTextView.getText().toString());
+        //fill record object with endtime
+        String endDateTime = simpleDateFormat.format(new Date());
+        record.setEndTime(endDateTime);
+        record.setEventName(eventName);
+        addPathToRecord();
+        //save record into parse
+        if(record!=null) {
+            RecordDao.insertRecord(record);
+            record = null;
+        }
+
         if (googleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
             googleApiClient.disconnect();
@@ -250,6 +297,8 @@ public class SkiTrackerActivity extends FragmentActivity implements
         stopButton.setEnabled(false);
         System.out.println("<====total traveled distance: " + traveledDistance + " meters");
         System.out.println("<====print points ======>");
+        System.out.println("<====lat list size ======>"+lattitudeList.size());
+        System.out.println("<====long list size ======>"+longitudeList.size());
     }
 
     private void addToTraveledDistance(double lastLattitude, double lastLongitudem, double currentLattitude, double currentLongitude){
@@ -276,9 +325,23 @@ public class SkiTrackerActivity extends FragmentActivity implements
             int milliseconds = (int) (finalTime % 1000);
             timerTextView.setText("" + minutes + ":"
                     + String.format("%02d", seconds) + ":"
-            + String.format("%03d", milliseconds));
+                    + String.format("%03d", milliseconds));
             timerHandler.postDelayed(this, 0);
         }
 
     };
+
+    private void addPathToRecord(){
+        if(lattitudeList.size() != longitudeList.size()){
+            throw new RuntimeException("Something wrong with location data");
+        }
+        int totalRecords = lattitudeList.size();
+        String path = "";
+        int locationDetail;
+        for(locationDetail=0; locationDetail<totalRecords-1; locationDetail++){
+            path += lattitudeList.get(locationDetail)+":"+longitudeList.get(locationDetail)+",";
+        }
+        path += lattitudeList.get(locationDetail)+":"+longitudeList.get(locationDetail);
+        record.setPath(path);
+    }
 }
