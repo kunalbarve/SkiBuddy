@@ -20,6 +20,7 @@ import com.cmpe277.skibuddy.ListUtility.EventsAdapter;
 import com.cmpe277.skibuddy.ListUtility.ListUtils;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Group;
+import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.cmpe277.skibuddy.Utility.Utilities;
@@ -98,9 +99,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     }
 
     private void getEventDetails(Event event, String mode){
-        if(event != null)
+        if(event != null){
+            event.setMode(mode);
+
+            Bundle extras = new Bundle();
+            extras.putSerializable("event", event);
+
+            Intent eventDetailIntent = new Intent(context, EventDetailsActivity.class);
+            eventDetailIntent.putExtras(extras);
+            startActivity(eventDetailIntent);
             Log.d(Constatnts.TAG, "EventId:" + event.toString());
-        else
+        }else
             Utilities.shortMsg(context, "Event details not available.");
     }
 

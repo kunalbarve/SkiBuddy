@@ -15,6 +15,15 @@ public class Event implements Serializable{
     private String startTime;
     private Date endDate;
     private String endTime;
+    private String mode;
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
     public String getId() {
         return id;
