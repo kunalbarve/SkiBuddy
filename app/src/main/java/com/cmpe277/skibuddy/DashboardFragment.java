@@ -15,6 +15,8 @@ import android.widget.ListView;
 import com.cmpe277.skibuddy.DAOs.EventDao;
 import com.cmpe277.skibuddy.ListUtility.EventsAdapter;
 import com.cmpe277.skibuddy.Models.Event;
+import com.cmpe277.skibuddy.Utility.SessionManager;
+
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener {
@@ -22,6 +24,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     public ArrayList<Event> activeEvents = new ArrayList<>();
     public ArrayList<Event> participatingEvents = new ArrayList<>();
     public ArrayList<Event> invitedEvents = new ArrayList<>();
+
+    private SessionManager session;
 
     Context context;
 
@@ -41,6 +45,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         context = getActivity().getApplicationContext();
 
+        session = new SessionManager(context);
+
         listView = (ListView) v.findViewById(R.id.listView1);
         listView2 = (ListView) v.findViewById(R.id.listView2);
         listView3 = (ListView) v.findViewById(R.id.listView3);
@@ -53,7 +59,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         listView2.setAdapter(adapter1);
         listView3.setAdapter(adapter1);
 
-        EventDao.getActiveEventDetails(adapter1, activeEvents, listView);
+        EventDao.getActiveEventDetails(adapter1, activeEvents, listView, session);
         EventDao.getParticipatingEvents(adapter2, participatingEvents, listView2);
         EventDao.getInvitedEvents(adapter3, invitedEvents, listView3);
 

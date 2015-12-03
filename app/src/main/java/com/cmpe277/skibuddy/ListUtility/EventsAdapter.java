@@ -1,6 +1,7 @@
 package com.cmpe277.skibuddy.ListUtility;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +35,20 @@ public class EventsAdapter extends ArrayAdapter<Event> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.simplelistitem, parent, false);
             viewHolder.eventName = (TextView) convertView.findViewById(R.id.eventName);
             viewHolder.eventDescription = (TextView) convertView.findViewById(R.id.eventDescription);
-            convertView.setTag(viewHolder);
+            convertView.setTag(viewHolder.eventName);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.eventName.setText(event.getName());
         viewHolder.eventDescription.setText(event.getDescription());
+
+        viewHolder.eventName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Event updatedItem = (Event) arg0.getTag();
+                Log.d("item clicked",updatedItem.getDescription().toString() );
+            }
+        });
 
         return convertView;
     }
