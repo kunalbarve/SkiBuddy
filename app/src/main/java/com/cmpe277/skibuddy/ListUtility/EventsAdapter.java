@@ -42,14 +42,6 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         viewHolder.eventName.setText(event.getName());
         viewHolder.eventDescription.setText(event.getDescription());
 
-        viewHolder.eventName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Event updatedItem = (Event) arg0.getTag();
-                Log.d("item clicked",updatedItem.getDescription().toString() );
-            }
-        });
-
         return convertView;
     }
 }

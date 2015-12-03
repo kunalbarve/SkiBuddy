@@ -1,9 +1,12 @@
 package com.cmpe277.skibuddy.ListUtility;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.cmpe277.skibuddy.Utility.Constatnts;
 
 /**
  * Created by knbarve on 12/2/15.
@@ -15,6 +18,7 @@ public class ListUtils {
             // when adapter is null
             return;
         }
+        Log.d(Constatnts.TAG, "Came for listutils:"+mListAdapter.getCount());
         int height = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
         for (int i = 0; i < mListAdapter.getCount(); i++) {

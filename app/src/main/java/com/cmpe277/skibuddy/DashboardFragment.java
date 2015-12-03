@@ -22,16 +22,20 @@ import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Group;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import android.widget.AdapterView;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener {
 
     public ArrayList<Event> activeEvents = new ArrayList<>();
     public ArrayList<Event> participatingEvents = new ArrayList<>();
     public ArrayList<Event> invitedEvents = new ArrayList<>();
+
 
     private SessionManager session;
 
@@ -61,11 +65,43 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         getGroupDetails();
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
+                Event event = activeEvents.get(pos);
+                getEventDetails(event, Constatnts.ACTIVATED_MODE);
+            }
+        });
+
+
+        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos,long id) {
+                Event event = participatingEvents.get(pos);
+                getEventDetails(event, Constatnts.JOINED_MODE);
+            }
+        });
+
+        listView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos,long id) {
+                Event event = invitedEvents.get(pos);
+                getEventDetails(event, Constatnts.INVITE_MODE);
+            }
+        });
+
         createEventButton = (Button) v.findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(this);
 
         return v;
 
+    }
+
+    private void getEventDetails(Event event, String mode){
+        if(event != null)
+            Log.d(Constatnts.TAG, "EventId:" + event.toString());
+        else
+            Utilities.shortMsg(context, "Event details not available.");
     }
 
     private void getGroupDetails() {
@@ -95,15 +131,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    private void refreshActivatedEvents(List<String> eventIds){
+    private void refreshActivatedEvents(List<String> eventIds) {
         EventDao.getActiveEventDetails(eventIds, new ParseReceiveAsyncObjectListener() {
             @Override
             public void receiveObjects(HashMap<String, Object> objectMap) {
                 Log.d(Constatnts.TAG, "Got Response set");
                 try {
                     CallbackUtils callback = (CallbackUtils) objectMap.get("activated_callback");
-                    participatingEvents = callback.getEventDetails();
-                    Log.d(Constatnts.TAG, "" + participatingEvents.size());
+                    activeEvents = callback.getEventDetails();
+                    Log.d(Constatnts.TAG, "" + activeEvents.size());
                     EventsAdapter adapter1 = new EventsAdapter(context, activeEvents);
                     listView.setAdapter(adapter1);
                     ListUtils.setDynamicHeight(listView);
@@ -115,7 +151,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    private void refreshJoinedEvents(List<String> eventIds){
+    private void refreshJoinedEvents(List<String> eventIds) {
         EventDao.getParticipatingEvents(eventIds, new ParseReceiveAsyncObjectListener() {
             @Override
             public void receiveObjects(HashMap<String, Object> objectMap) {
@@ -135,15 +171,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    private void refreshInvitedEvents(List<String> eventIds){
+    private void refreshInvitedEvents(List<String> eventIds) {
         EventDao.getInvitedEvents(eventIds, new ParseReceiveAsyncObjectListener() {
             @Override
             public void receiveObjects(HashMap<String, Object> objectMap) {
                 Log.d(Constatnts.TAG, "Got Response set");
                 try {
                     CallbackUtils callback = (CallbackUtils) objectMap.get("invited_callback");
-                    participatingEvents = callback.getEventDetails();
-                    Log.d(Constatnts.TAG, "" + participatingEvents.size());
+                    invitedEvents = callback.getEventDetails();
+                    Log.d(Constatnts.TAG, "" + invitedEvents.size());
                     EventsAdapter adapter3 = new EventsAdapter(context, invitedEvents);
                     listView3.setAdapter(adapter3);
                     ListUtils.setDynamicHeight(listView3);
