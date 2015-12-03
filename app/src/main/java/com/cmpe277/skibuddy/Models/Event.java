@@ -71,4 +71,17 @@ public class Event implements Serializable{
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", startTime='" + startTime + '\'' +
+                ", endDate=" + endDate +
+                ", endTime='" + endTime + '\'' +
+                '}';
+    }
 }

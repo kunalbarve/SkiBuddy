@@ -9,9 +9,9 @@
         <item name="colorAccent">#FF4081</item>
     </style>
 
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="NewTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="icon">@mipmap/ic_launcher</item>
-    </style>-->
+    </style>
 
     <style name="myTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionMenuTextColor">@android:color/holo_blue_light</item>
@@ -25,3 +25,4 @@
         <item name="android:textColor">@android:color/holo_blue_light</item>
     </style>
 </resources>
+

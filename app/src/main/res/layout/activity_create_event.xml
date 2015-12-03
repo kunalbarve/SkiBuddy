@@ -1,15 +1,160 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:fillViewport="true"
+tools:context="com.cmpe277.skibuddy.CreateEvent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.cmpe277.skibuddy.CreateEvent">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/eventTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:layout_margin="15dp"
+        android:background="@drawable/edit_style"
+        android:ellipsize="start"
+        android:hint="Event Name"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp" />
 
+    <EditText
+        android:id="@+id/eventDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/edit_style"
+        android:ellipsize="start"
+        android:hint="Event Description"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/dateStart"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:ellipsize="start"
+            android:onClick="showDatePickerDialog"
+            android:text="Start Date" />
+
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/edit_style"
+            android:ellipsize="start"
+            android:hint="Start Date"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/timeStart"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:ellipsize="start"
+            android:onClick="showTimePickerDialog"
+            android:text="Start Time" />
+
+        <TextView
+            android:id="@+id/startTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/edit_style"
+            android:ellipsize="start"
+            android:hint="Start Time"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dateEnd"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:ellipsize="start"
+            android:onClick="showDatePickerDialog"
+            android:text="End Date" />
+
+        <TextView
+            android:id="@+id/endDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/edit_style"
+            android:ellipsize="start"
+            android:hint="End Date"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/timeEnd"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:ellipsize="start"
+            android:onClick="showTimePickerDialog"
+            android:text="End Time" />
+
+        <TextView
+            android:id="@+id/endTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/edit_style"
+            android:ellipsize="start"
+            android:hint="End Time"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_style"
+        android:padding="15dp"
+        android:text="Save Event" />
+
+</LinearLayout>
+</ScrollView>
