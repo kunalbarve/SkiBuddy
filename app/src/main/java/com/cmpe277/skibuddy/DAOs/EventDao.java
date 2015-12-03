@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.cmpe277.skibuddy.ListUtility.CallbackUtils;
 import com.cmpe277.skibuddy.ListUtility.EventsAdapter;
 import com.cmpe277.skibuddy.ListUtility.ListUtils;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.ParseReceiveAsyncObjectListener;
 import com.cmpe277.skibuddy.R;
+import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -27,51 +29,38 @@ import java.util.List;
  */
 public class EventDao {
 
-    public static void getActiveEventDetails(final EventsAdapter adapter, final List<Event> activeEvents, final ListView listView, SessionManager session){
+    public static void getActiveEventDetails(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
 
-
-        String userId = session.getLoggedInMail();
-
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Group");
-        query.whereEqualTo("userId", userId);
-        query.whereEqualTo("flag", "1");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    List<String> eventIds = new ArrayList<String>();
-                     for (ParseObject group : objects) {
-                       eventIds.add(group.getString("eventId"));
-                    }
-
-                    fetchActiveEvents(eventIds, adapter, activeEvents, listView);
-                } else {
-                    Log.d("events", "Error: " + e.getMessage());
-                }
-            }
-        });
-    }
-
-    public static void fetchActiveEvents(List<String> eventIds,final EventsAdapter adapter, final List<Event> activeEvents, final ListView listView){
         Date currentDate = new Date();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
-        query.whereContainedIn("eventId", eventIds);
+        query.whereContainedIn("objectId", eventIds);
         query.whereLessThanOrEqualTo("startDate", currentDate);
         query.whereGreaterThanOrEqualTo("endDate", currentDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    Log.d("1 size",Integer.toString(objects.size()));
-                    for (ParseObject event : objects) {
-                        Event newEvent = new Event();
-                        newEvent.setName(event.getString("eventName"));
-                        newEvent.setDescription(event.getString("description"));
+                    Log.d(Constatnts.TAG,"Came in fetching event details"+objects.size());
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (ParseObject obj : objects) {
+                        Event event = new Event();
+                        event.setName(obj.getString("eventName"));
+                        event.setDescription(obj.getString("description"));
+                        event.setId(obj.getObjectId());
+                        event.setStartDate(obj.getDate("startDate"));
+                        event.setEndDate(obj.getDate("endDate"));
+                        event.setStartTime(obj.getString("startTime"));
+                        event.setEndTime(obj.getString("endTime"));
 
-                        activeEvents.add(newEvent);
-                        adapter.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
+                        events.add(event);
                     }
+
+                    CallbackUtils callbackUtils = new CallbackUtils();
+                    callbackUtils.setEventDetails(events);
+                    Log.d(Constatnts.TAG, "Callback set in event");
+                    HashMap<String, Object> objectMap = new HashMap<>();
+                    objectMap.put("activated_callback", callbackUtils);
+                    listenerObj.receiveObjects(objectMap);
 
                 } else {
                     Log.d("events", "Error: " + e.getMessage());
@@ -80,22 +69,39 @@ public class EventDao {
         });
     }
 
-    public static void getParticipatingEvents(final EventsAdapter adapter, final List<Event> participatingEvents, final ListView listView){
 
-        final ParseQuery<ParseObject> query = new ParseQuery<>("Event");
+    public static void getParticipatingEvents(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
+
+        Date currentDate = new Date();
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
+        query.whereContainedIn("objectId", eventIds);
+        query.whereGreaterThan("startDate", currentDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    Log.d("1 size",Integer.toString(objects.size()));
-                    for (ParseObject event : objects) {
-                        Event newEvent = new Event();
-                        newEvent.setName(event.getString("eventName"));
-                        newEvent.setDescription(event.getString("description"));
-                        participatingEvents.add(newEvent);
-                        adapter.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
+                    Log.d(Constatnts.TAG,"Came in fetching event details"+objects.size());
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (ParseObject obj : objects) {
+                        Event event = new Event();
+                        event.setName(obj.getString("eventName"));
+                        event.setDescription(obj.getString("description"));
+                        event.setId(obj.getObjectId());
+                        event.setStartDate(obj.getDate("startDate"));
+                        event.setEndDate(obj.getDate("endDate"));
+                        event.setStartTime(obj.getString("startTime"));
+                        event.setEndTime(obj.getString("endTime"));
+
+                        events.add(event);
                     }
+
+                    CallbackUtils callbackUtils = new CallbackUtils();
+                    callbackUtils.setEventDetails(events);
+                    Log.d(Constatnts.TAG, "Callback set in event");
+                    HashMap<String, Object> objectMap = new HashMap<>();
+                    objectMap.put("joined_callback", callbackUtils);
+                    listenerObj.receiveObjects(objectMap);
+
                 } else {
                     Log.d("events", "Error: " + e.getMessage());
                 }
@@ -104,22 +110,37 @@ public class EventDao {
 
     }
 
-    public static void getInvitedEvents(final EventsAdapter adapter, final List<Event> invitedEvents, final ListView listView){
+    public static void getInvitedEvents(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
 
-        ParseQuery<ParseObject> query = new ParseQuery<>("Event");
+        Date currentDate = new Date();
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
+        query.whereContainedIn("objectId", eventIds);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    Log.d("2 size",Integer.toString(objects.size()));
-                    for (ParseObject event : objects) {
-                        Event newEvent = new Event();
-                        newEvent.setName(event.getString("eventName"));
-                        newEvent.setDescription(event.getString("description"));
-                        invitedEvents.add(newEvent);
-                        adapter.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
+                    Log.d(Constatnts.TAG,"Came in fetching event details"+objects.size());
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (ParseObject obj : objects) {
+                        Event event = new Event();
+                        event.setName(obj.getString("eventName"));
+                        event.setDescription(obj.getString("description"));
+                        event.setId(obj.getObjectId());
+                        event.setStartDate(obj.getDate("startDate"));
+                        event.setEndDate(obj.getDate("endDate"));
+                        event.setStartTime(obj.getString("startTime"));
+                        event.setEndTime(obj.getString("endTime"));
+
+                        events.add(event);
                     }
+
+                    CallbackUtils callbackUtils = new CallbackUtils();
+                    callbackUtils.setEventDetails(events);
+                    Log.d(Constatnts.TAG, "Callback set in event");
+                    HashMap<String, Object> objectMap = new HashMap<>();
+                    objectMap.put("invited_callback", callbackUtils);
+                    listenerObj.receiveObjects(objectMap);
+
                 } else {
                     Log.d("events", "Error: " + e.getMessage());
                 }
