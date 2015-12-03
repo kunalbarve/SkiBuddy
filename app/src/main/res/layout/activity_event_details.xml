@@ -30,7 +30,7 @@
 
 
             <Button
-                android:id="@+id/unsubscribeButton"
+                android:id="@+id/unSubscribeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -38,7 +38,7 @@
                 android:background="@drawable/edit_style"
                 android:padding="15dp"
                 android:layout_weight="0.5"
-                android:text="Unsubscribe" />
+                android:text="UnSubscribe" />
 
             <Button
                 android:id="@+id/addParticipantButton"
