@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_profile, container, false);
         context = getActivity().getApplicationContext();
-        skietrackerButton = (Button)v.findViewById(R.id.skitrackerButton);
+        skietrackerButton = (Button)v.findViewById(R.id.skiTrackerButton);
         skietrackerButton.setOnClickListener(this);
         return v;
     }
@@ -41,9 +41,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.skitrackerButton :
-                Intent skietrackerIntent = new Intent(context, SkiTrackerActivity.class);
-                startActivity(skietrackerIntent);
+            case R.id.skiTrackerButton :
+                Intent skiTrackerIntent = new Intent(context, SkiTrackerActivity.class);
+                startActivity(skiTrackerIntent);
                 break;
         }
     }
