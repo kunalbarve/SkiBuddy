@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
             android:layout_weight="0.5"
-            android:text="Start"
+            android:text="@string/ski_tracker_start_button"
             />
 
         <Button
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Stop"
+            android:text="@string/ski_tracker_stop_button"
             />
     </LinearLayout>
 
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="100dp">
+        android:paddingTop="50dp">
 
 
         <LinearLayout
@@ -44,19 +44,20 @@
             android:gravity="top">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:paddingLeft="10sp"
-                android:text="Distance Traveled " />
+                android:textSize="12sp"
+                android:paddingLeft="2sp"
+                android:textStyle="bold"
+                android:text="@string/ski_tracker_distance_covered" />
 
             <TextView
                 android:id="@+id/textDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:paddingLeft="10sp"
-                android:text="0 meter" />
+                android:textSize="12sp"
+                android:paddingLeft="2sp"
+                android:text="@string/ski_tracker_distance_covered_value" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,19 +66,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:paddingLeft="10sp"
-                android:text="Traveled Time: " />
+                android:textSize="12sp"
+                android:paddingLeft="2sp"
+                android:textStyle="bold"
+                android:text="@string/ski_tracker_total_time" />
 
             <TextView
                 android:id="@+id/textTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:paddingLeft="10sp"
-                android:text="00:00:00" />
+                android:textSize="12sp"
+                android:paddingLeft="2sp"
+                android:text="@string/ski_tracker_total_time_value" />
         </LinearLayout>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"

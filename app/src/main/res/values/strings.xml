@@ -12,4 +12,19 @@
     <string name="title_activity_create_event">CreateEvent</string>
     <string name="title_activity_display_record">Record</string>
 
+    <!-- activity_display_record strings -->
+    <string name="display_record_record_name">Record Name:</string>
+    <string name="display_record_event_name">Event Name:</string>
+    <string name="display_record_distance_covered">Distance Covered:</string>
+    <string name="display_record_total_time">Total Time:</string>
+    <string name="display_record_path">Path:</string>
+
+    <!-- activity_ski_tracker strings -->
+    <string name="ski_tracker_start_button">Start</string>
+    <string name="ski_tracker_stop_button">Stop</string>
+    <string name="ski_tracker_distance_covered">Distance Covered:</string>
+    <string name="ski_tracker_distance_covered_value">0 meter</string>
+    <string name="ski_tracker_total_time">Total Time:</string>
+    <string name="ski_tracker_total_time_value">00:00:00</string>
+
 </resources>

@@ -19,18 +19,19 @@ tools:context="com.cmpe277.skibuddy.DisplayRecordActivity">
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
-            android:text="Record Name: " />
+            android:layout_width="120dp"
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
+            android:textStyle="bold"
+            android:text="@string/display_record_record_name" />
 
         <TextView
             android:id="@+id/textRecordName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
             android:text="" />
     </LinearLayout>
 
@@ -40,18 +41,19 @@ tools:context="com.cmpe277.skibuddy.DisplayRecordActivity">
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
-            android:text="Event Name: " />
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
+            android:textStyle="bold"
+            android:text="@string/display_record_event_name" />
 
         <TextView
             android:id="@+id/textEventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
             android:text="" />
     </LinearLayout>
 
@@ -61,18 +63,19 @@ tools:context="com.cmpe277.skibuddy.DisplayRecordActivity">
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
-            android:text="Distance Covered: " />
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
+            android:textStyle="bold"
+            android:text="@string/display_record_distance_covered" />
 
         <TextView
             android:id="@+id/textDistanceCovered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
             android:text="" />
     </LinearLayout>
 
@@ -83,28 +86,30 @@ tools:context="com.cmpe277.skibuddy.DisplayRecordActivity">
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
-            android:text="Traveled Time: " />
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
+            android:textStyle="bold"
+            android:text="@string/display_record_total_time" />
 
         <TextView
             android:id="@+id/textTraveledTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10sp"
+            android:textSize="12sp"
+            android:paddingLeft="2sp"
             android:text="" />
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:paddingLeft="10sp"
-        android:paddingBottom="10sp"
-        android:text="Path: " />
+        android:textSize="12sp"
+        android:paddingLeft="2sp"
+        android:paddingBottom="5sp"
+        android:textStyle="bold"
+        android:text="@string/display_record_path" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
