@@ -26,5 +26,13 @@
     <string name="ski_tracker_distance_covered_value">0 meter</string>
     <string name="ski_tracker_total_time">Total Time:</string>
     <string name="ski_tracker_total_time_value">00:00:00</string>
+    <string name="title_activity_event_details">EventDetailsActivity</string>
+
+    <!-- activity_event_details strings -->
+    <string name="event_details_event_name">Event Name:</string>
+    <string name="event_details_event_description">Event Description:</string>
+    <string name="event_details_start_time">Start Time:</string>
+    <string name="event_details_end_time">End Time:</string>
+    <string name="event_details_event_participants">Event Participants:</string>
 
 </resources>
