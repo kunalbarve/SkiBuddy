@@ -1,6 +1,7 @@
 package com.cmpe277.skibuddy;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -13,6 +14,7 @@ import android.view.View;
 
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -77,6 +79,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.logout) {
             session.logoutUser();
             finish();
+            return true;
+        }else if(id == R.id.updateProfile){
+            String url = session.getLoggedInUserDetails().getUrl();
+            if(url.equals(""))
+                Utilities.shortMsg(getApplicationContext(), "User profile information missing. Try later!");
+            else{
+                session.logoutUser();
+                finish();
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
             return true;
         }
 
