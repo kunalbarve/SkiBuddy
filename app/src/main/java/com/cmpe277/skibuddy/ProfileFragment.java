@@ -61,15 +61,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
             skiTrackerButton = (Button)v.findViewById(R.id.skiTrackerButton);
             skiTrackerButton.setOnClickListener(this);
+
+            displayRecordButton = (Button)v.findViewById(R.id.displayRecordButton);
+            displayRecordButton.setOnClickListener(this);
         }else{
             getActivity().finish();
         }
 
-        skietrackerButton = (Button)v.findViewById(R.id.skitrackerButton);
-        skietrackerButton.setOnClickListener(this);
-
-        displayRecordButton = (Button)v.findViewById(R.id.displayRecordButton);
-        displayRecordButton.setOnClickListener(this);
         return v;
     }
 
@@ -94,7 +92,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.displayRecordButton :
                 //call to parse to get data async,in the callback open intent
-                RecordDao.getRecordAndOpenIntent("Re2j9fTWiL", new ParseReceiveAsyncObjectListener() {
+                RecordDao.getRecordAndOpenIntent("YwRXDCzfkt", new ParseReceiveAsyncObjectListener() {
                     @Override
                     public void receiveObjects(HashMap<String, Object> objectMap) {
                         Intent displayRecordIntent = new Intent(context, DisplayRecordActivity.class);
