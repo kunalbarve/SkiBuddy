@@ -2,10 +2,15 @@ package com.cmpe277.skibuddy.DAOs;
 
 import android.util.Log;
 
+import com.cmpe277.skibuddy.ListUtility.CallbackUtils;
+import com.cmpe277.skibuddy.Models.Group;
 import com.cmpe277.skibuddy.Models.User;
+import com.cmpe277.skibuddy.ParseReceiveAsyncObjectListener;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.parse.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,6 +42,39 @@ public class UserDao {
                     person.saveInBackground();
                 } else {
                     Log.e(Constatnts.TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
+    public static void getUserDetails(List<String> userIds, final ParseReceiveAsyncObjectListener listenerObj){
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("User");
+        query.whereContainedIn("userId", userIds);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.d(Constatnts.TAG, "Came in Group callback:" + objects.size());
+                    ArrayList<User> userDetails = new ArrayList<>();
+                    for (ParseObject obj : objects) {
+                        User user = new User();
+                        user.setUserId(obj.getString("userId"));
+                        user.setUrl(obj.getString("url"));
+                        user.setTagLine(obj.getString("tagLine"));
+                        user.setImage(obj.getString("image"));
+                        user.setUserName(obj.getString("userName"));
+                        userDetails.add(user);
+                    }
+
+                    CallbackUtils callbackUtils = new CallbackUtils();
+                    callbackUtils.setUserDetails(userDetails);
+                    Log.d(Constatnts.TAG, "Callback set");
+                    HashMap<String, Object> objectMap = new HashMap<>();
+                    objectMap.put("user_callback", callbackUtils);
+                    listenerObj.receiveObjects(objectMap);
+
+                } else {
+                    Log.d("events", "Error: " + e.getMessage());
                 }
             }
         });

@@ -4,15 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cmpe277.skibuddy.DAOs.GroupDao;
+import com.cmpe277.skibuddy.DAOs.UserDao;
+import com.cmpe277.skibuddy.ListUtility.CallbackUtils;
+import com.cmpe277.skibuddy.ListUtility.ListUtils;
+import com.cmpe277.skibuddy.ListUtility.UserAdapter;
 import com.cmpe277.skibuddy.Models.Event;
+import com.cmpe277.skibuddy.Models.Group;
+import com.cmpe277.skibuddy.Models.User;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,7 +42,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView eventDescription;
     private TextView startTime;
     private TextView endTime;
+    private ListView listView;
     
+    private ArrayList<User> userDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +55,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         if(session.checkLogin()){
             setContentView(R.layout.activity_event_details);
+
+            listView = (ListView) findViewById(R.id.participantsListView);
 
             subscribeButton = (Button) findViewById(R.id.subscribeButton);
             unSubscribeButton = (Button) findViewById(R.id.unSubscribeButton);
@@ -109,10 +127,57 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             eventName.setText(event.getName());
             eventDescription.setText(event.getDescription());
-            startTime.setText((CharSequence) event.getStartDate());
-            endTime.setText((CharSequence) event.getEndDate());
+            startTime.setText(Utilities.getDateString(event.getStartDate()));
+            endTime.setText(Utilities.getDateString(event.getEndDate()));
+
+            getGroupDetails(event.getId());
         }
     }
+
+    private void getGroupDetails(String eventId) {
+        GroupDao.getGroupDetailsForEvents(eventId, new ParseReceiveAsyncObjectListener() {
+            @Override
+            public void receiveObjects(HashMap<String, Object> objectMap) {
+                Log.d(Constatnts.TAG, "Got Response set");
+                try {
+                    CallbackUtils callback = (CallbackUtils) objectMap.get("event_group_callback");
+                    List<Group> groupDetails = callback.getGroupDetails();
+                    Log.d(Constatnts.TAG, "" + groupDetails.size());
+
+                    List<String> userIds = new ArrayList<String>();
+                    for (Group group : groupDetails){
+                        userIds.add(group.getUserId());
+                    }
+
+                    getUserDetails(userIds);
+                } catch (Exception e) {
+                    Log.e(Constatnts.TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void getUserDetails(List<String> userIds) {
+        UserDao.getUserDetails(userIds, new ParseReceiveAsyncObjectListener() {
+            @Override
+            public void receiveObjects(HashMap<String, Object> objectMap) {
+                Log.d(Constatnts.TAG, "Got Response set");
+                try {
+                    CallbackUtils callback = (CallbackUtils) objectMap.get("user_callback");
+                    userDetails = callback.getUserDetails();
+                    Log.d(Constatnts.TAG, "" + userDetails.size());
+
+                    UserAdapter adapter = new UserAdapter(context, userDetails);
+                    listView.setAdapter(adapter);
+                    ListUtils.setDynamicHeight(listView);
+
+                } catch (Exception e) {
+                    Log.e(Constatnts.TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
