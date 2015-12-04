@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="#a8a8a8"
         android:padding="10dip">
 
         <Button
@@ -26,7 +27,6 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:textSize="18sp"
-            android:textStyle="bold"
             android:text="Active Events" />
 
         <ListView
@@ -34,14 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#ff4f4f"></ListView>
+            android:background="@drawable/edit_style">
+    </ListView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:textSize="18sp"
-            android:textStyle="bold"
             android:text="Joined Events" />
 
         <ListView
@@ -49,7 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#156f1b"></ListView>
+            android:textColor="#000000"
+            android:background="@drawable/edit_style"></ListView>
 
         <TextView
             android:id="@+id/eventInvite"
@@ -58,7 +59,6 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:textSize="18sp"
-            android:textStyle="bold"
             android:text="Event Invites" />
 
         <ListView
@@ -66,7 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#6b66ff"></ListView>
+            android:textColor="#000000"
+            android:background="@drawable/edit_style"></ListView>
     </LinearLayout>
 
 </ScrollView>
