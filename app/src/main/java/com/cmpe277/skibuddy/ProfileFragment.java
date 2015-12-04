@@ -28,8 +28,6 @@ import java.util.List;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener, ParseReceiveAsyncObjectListener{
 
-
-    private Button skiTrackerButton = null;
     private ImageView profilePic;
     private TextView userName;
     private TextView userEmail;
@@ -38,7 +36,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
     private View v;
     ListView listView;
 
-    Button displayRecordButton = null;
     Context context;
 
     public ProfileFragment() {
@@ -62,12 +59,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
 
             updateUserDetails();
 
-            skiTrackerButton = (Button)v.findViewById(R.id.skiTrackerButton);
-            skiTrackerButton.setOnClickListener(this);
 
             listView = (ListView)v.findViewById(R.id.recordsView);
             //load  records for user
-            RecordDao.getRecordsForUserId("qwFARamCPG", this);
+            RecordDao.getRecordsForUserId(session.getLoggedInMail(), this);
         }else{
             getActivity().finish();
         }
@@ -90,10 +85,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.skiTrackerButton :
-                Intent skiTrackerIntent = new Intent(context, SkiTrackerActivity.class);
-                startActivity(skiTrackerIntent);
-                break;
 
         }
     }
