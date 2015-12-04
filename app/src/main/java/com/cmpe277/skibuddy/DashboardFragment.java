@@ -223,8 +223,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.createEventButton:
                 Intent createEventIntent = new Intent(context, CreateEvent.class);
-                startActivity(createEventIntent);
+                startActivityForResult(createEventIntent, 1111);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1111 || resultCode == 1111){
+            getGroupDetails();
         }
     }
 }

@@ -205,6 +205,7 @@ public class CreateEvent extends AppCompatActivity implements View.OnClickListen
             public void done(com.parse.ParseException e) {
                 if (e == null) {
                    Utilities.shortMsg(getApplicationContext(), "Event created successfully");
+                    setResult(1111);
                     finish();
                 } else {
                     Utilities.shortMsg(getApplicationContext(), "Error occurred in event creation");
