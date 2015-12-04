@@ -70,10 +70,6 @@
         android:textSize="20sp"
         android:text="Skiing Records:" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
 
         <ListView
             android:id="@+id/recordsView"
@@ -82,7 +78,7 @@
             android:layout_marginTop="10sp"
             android:background="#000000"></ListView>
 
-    </ScrollView>
+
 
 
 </LinearLayout>

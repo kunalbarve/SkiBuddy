@@ -28,6 +28,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
         Event event = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
