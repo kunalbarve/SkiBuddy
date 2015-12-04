@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmpe277.skibuddy.Models.User;
@@ -20,10 +21,12 @@ import com.cmpe277.skibuddy.DAOs.RecordDao;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
-public class ProfileFragment extends Fragment implements View.OnClickListener{
+public class ProfileFragment extends Fragment implements View.OnClickListener, ParseReceiveAsyncObjectListener{
 
 
     private Button skiTrackerButton = null;
@@ -33,8 +36,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private TextView tagLine;
     private SessionManager session;
     private View v;
+    ListView listView;
 
-    Button skietrackerButton = null;
     Button displayRecordButton = null;
     Context context;
 
@@ -62,8 +65,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             skiTrackerButton = (Button)v.findViewById(R.id.skiTrackerButton);
             skiTrackerButton.setOnClickListener(this);
 
-            displayRecordButton = (Button)v.findViewById(R.id.displayRecordButton);
-            displayRecordButton.setOnClickListener(this);
+            listView = (ListView)v.findViewById(R.id.recordsView);
+            //load  records for user
+            RecordDao.getRecordsForUserId("qwFARamCPG", this);
         }else{
             getActivity().finish();
         }
@@ -90,20 +94,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 Intent skiTrackerIntent = new Intent(context, SkiTrackerActivity.class);
                 startActivity(skiTrackerIntent);
                 break;
-            case R.id.displayRecordButton :
-                //call to parse to get data async,in the callback open intent
-                RecordDao.getRecordAndOpenIntent("YwRXDCzfkt", new ParseReceiveAsyncObjectListener() {
-                    @Override
-                    public void receiveObjects(HashMap<String, Object> objectMap) {
-                        Intent displayRecordIntent = new Intent(context, DisplayRecordActivity.class);
-                        Bundle extras = new Bundle();
-                        extras.putSerializable("event", (Event) objectMap.get("event"));
-                        extras.putSerializable("record",(Record)objectMap.get("record"));
-                        displayRecordIntent.putExtras(extras);
-                        startActivity(displayRecordIntent);
-                    }
-                });
-                break;
+
+        }
+    }
+
+    public void displayRecordList(List<Record> recordList){
+        listView.setAdapter(new RecordListAdapter(this.getActivity(), R.layout.record_item, recordList));
+    }
+
+    @Override
+    public void receiveObjects(HashMap<String, Object> objectMap) {
+        if(objectMap.containsKey("records")){
+            ArrayList<Record> recordList=(ArrayList<Record>)objectMap.get("records");
+            displayRecordList(recordList);
         }
     }
 }
