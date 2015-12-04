@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class CreateEvent extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
@@ -215,13 +216,16 @@ public class CreateEvent extends AppCompatActivity implements View.OnClickListen
 
     private Date getParsedDate(String date, String time){
         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+0");
+        df.setTimeZone(timeZone);
         Date newDate = null;
         try {
             Date d = df.parse(date);
 
             String[] array = time.split(":");
-
             Calendar calendar=Calendar.getInstance();
+
+            calendar.setTimeZone(timeZone);
             calendar.setTime(d);
             calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(array[0]));
             calendar.set(Calendar.MINUTE, Integer.parseInt(array[1]));
