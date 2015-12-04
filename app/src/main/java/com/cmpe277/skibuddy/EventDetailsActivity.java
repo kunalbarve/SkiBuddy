@@ -193,7 +193,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.skiTrackerButton:
+                Bundle extras = new Bundle();
+                extras.putSerializable("event", event);
+
                 Intent skiTrackerIntent = new Intent(context, SkiTrackerActivity.class);
+                skiTrackerIntent.putExtras(extras);
                 startActivity(skiTrackerIntent);
                 break;
         }

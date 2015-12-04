@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cmpe277.skibuddy.DAOs.RecordDao;
+import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
+import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -39,6 +41,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, View.OnClickListener {
 
+    private SessionManager session;
     public static final String CLASSNAME = SkiTrackerActivity.class.getSimpleName();
 
     private final static int GOOGLESERVICE_CONNECTION_FAILURE_RESOLUTION_REQUEST_NUMBER = 7878;
@@ -85,6 +88,19 @@ public class SkiTrackerActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ski_tracker);
+
+        session = new SessionManager(getApplicationContext());
+
+        Bundle bundle = this.getIntent().getExtras();
+        if(bundle==null){
+            return;
+        }
+        Event event = (Event)bundle.getSerializable("event");
+
+        eventId = event.getId();
+        userId = session.getLoggedInMail();
+        eventName = event.getName();
+
 
         startButton = (Button)findViewById(R.id.startButton);
         startButton.setOnClickListener(this);
