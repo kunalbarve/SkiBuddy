@@ -33,12 +33,12 @@
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
+            android:layout_marginTop="10dp"
             android:background="#ff4f4f"></ListView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -48,14 +48,14 @@
             android:id="@+id/listView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
+            android:layout_marginTop="10dp"
             android:background="#156f1b"></ListView>
 
         <TextView
             android:id="@+id/eventInvite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -65,7 +65,7 @@
             android:id="@+id/listView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
+            android:layout_marginTop="10dp"
             android:background="#6b66ff"></ListView>
     </LinearLayout>
 

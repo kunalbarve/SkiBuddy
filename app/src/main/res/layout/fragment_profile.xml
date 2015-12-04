@@ -55,14 +55,19 @@
 
     <Button
         android:id="@+id/skiTrackerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="132dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/edit_style"
+        android:layout_marginTop="15sp"
+        android:layout_marginBottom="15sp"
         android:text="Ski Tracker" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginBottom="10sp"
+        android:textSize="20sp"
         android:text="Skiing Records:" />
 
     <ScrollView
@@ -74,8 +79,8 @@
             android:id="@+id/recordsView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:background="#B29090"></ListView>
+            android:layout_marginTop="10sp"
+            android:background="#000000"></ListView>
 
     </ScrollView>
 
