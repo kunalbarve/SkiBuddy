@@ -20,7 +20,6 @@ import com.cmpe277.skibuddy.ListUtility.EventsAdapter;
 import com.cmpe277.skibuddy.ListUtility.ListUtils;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Group;
-import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.cmpe277.skibuddy.Utility.Utilities;

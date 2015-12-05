@@ -1,5 +1,6 @@
 package com.cmpe277.skibuddy;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,14 +24,16 @@ import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Group;
 import com.cmpe277.skibuddy.Models.User;
 import com.cmpe277.skibuddy.Utility.Constatnts;
+import com.cmpe277.skibuddy.Utility.InputDialog;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.TimePickerFragment;
 import com.cmpe277.skibuddy.Utility.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener, InputDialog.NoticeDialogListener {
 
     private SessionManager session;
     private Context context;
@@ -44,7 +48,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView startTime;
     private TextView endTime;
     private ListView listView;
-    
+
     private ArrayList<User> userDetails;
 
     @Override
@@ -204,6 +208,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.addParticipantButton:
+                DialogFragment inputFragment = new InputDialog();
+                inputFragment.show(getFragmentManager(), "AddParticipant");
                 break;
 
             case R.id.skiTrackerButton:
@@ -214,6 +220,16 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 skiTrackerIntent.putExtras(extras);
                 startActivity(skiTrackerIntent);
                 break;
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClick(String emailAddress) {
+        Log.d(Constatnts.TAG,"Clicked on add"+emailAddress);
+        if(emailAddress.equals("") || !Utilities.isValidEmailAddress(emailAddress)){
+            Utilities.shortMsg(context, emailAddress +" is not a valid email.");
+        }else{
+            //do sth
         }
     }
 }
