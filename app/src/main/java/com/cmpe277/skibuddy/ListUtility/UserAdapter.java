@@ -47,22 +47,6 @@ public class UserAdapter extends ArrayAdapter<User> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.participants_list_item, parent, false);
             viewHolder.pic = (ImageView) convertView.findViewById(R.id.participantPic);
             viewHolder.name = (TextView) convertView.findViewById(R.id.participantName);
-            viewHolder.name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Bundle extras = new Bundle();
-                    extras.putSerializable("event", event);
-                    extras.putSerializable("user", user);
-                    System.out.println("<=====eventid " + event.getId());
-                    Intent userDetailsIntent = new Intent(context, UserDetailsActivity.class);
-                    userDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    userDetailsIntent.putExtras(extras);
-                    System.out.println("<=====abt to start activity " + event.getId());
-                    context.startActivity(userDetailsIntent);
-
-                }
-            });
             convertView.setTag(viewHolder.name);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

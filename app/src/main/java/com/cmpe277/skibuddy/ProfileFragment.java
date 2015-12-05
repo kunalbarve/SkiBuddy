@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment implements ParseReceiveAsyncObject
 
     Context context;
 
-    ArrayList<Event> events;
+    private ArrayList<Event> events;
 
     public ProfileFragment() {
 

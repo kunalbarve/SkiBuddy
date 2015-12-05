@@ -1,9 +1,13 @@
 package com.cmpe277.skibuddy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,7 +16,9 @@ import com.cmpe277.skibuddy.DAOs.RecordDao;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.Models.User;
+import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,6 +42,8 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
     private Event event;
     private User user;
 
+    private ArrayList<Record> recordList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,19 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
         user = (User)bundle.getSerializable("user");
 
         listView = (ListView)findViewById(R.id.recordsViewUserDetails);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos,long id) {
+                Record record = recordList.get(pos);
+                Intent displayRecordIntent = new Intent(context, DisplayRecordActivity.class);
+                displayRecordIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle extras = new Bundle();
+                extras.putSerializable("event", event);
+                extras.putSerializable("record", record);
+                displayRecordIntent.putExtras(extras);
+                context.startActivity(displayRecordIntent);
+            }
+        });
         updateUserDetails();
         //load  records for user
         RecordDao.getRecordsForUserId(user.getUserId(), event.getId(), this);
@@ -70,7 +91,7 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
     @Override
     public void receiveObjects(HashMap<String, Object> objectMap) {
         if(objectMap.containsKey("records")){
-            ArrayList<Record> recordList=(ArrayList<Record>)objectMap.get("records");
+            recordList=(ArrayList<Record>)objectMap.get("records");
             displayRecordList(recordList);
         }
     }
@@ -83,4 +104,5 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
         userEmail.setText(user.getUserId());
         tagLine.setText(user.getTagLine());
     }
+
 }

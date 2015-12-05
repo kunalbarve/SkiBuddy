@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,7 +57,26 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         if(session.checkLogin()){
             setContentView(R.layout.activity_event_details);
 
+            Bundle bundle = this.getIntent().getExtras();
+            if(bundle==null){
+                return;
+            }
+            event = (Event)bundle.getSerializable("event");
+
             listView = (ListView) findViewById(R.id.participantsListView);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
+                    User user = userDetails.get(pos);
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("event", event);
+                    extras.putSerializable("user", user);
+                    Intent userDetailsIntent = new Intent(context, UserDetailsActivity.class);
+                    userDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    userDetailsIntent.putExtras(extras);
+                    context.startActivity(userDetailsIntent);
+                }
+            });
 
             subscribeButton = (Button) findViewById(R.id.subscribeButton);
             unSubscribeButton = (Button) findViewById(R.id.unSubscribeButton);
@@ -76,12 +96,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             unSubscribeButton.setVisibility(View.INVISIBLE);
             addParticipantButton.setVisibility(View.INVISIBLE);
             skiTrackerButton.setVisibility(View.INVISIBLE);
-
-            Bundle bundle = this.getIntent().getExtras();
-            if(bundle==null){
-                return;
-            }
-            event = (Event)bundle.getSerializable("event");
 
             populateEventDetails(event);
         }else{
