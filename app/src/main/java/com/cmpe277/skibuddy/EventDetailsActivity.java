@@ -3,6 +3,8 @@ package com.cmpe277.skibuddy;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,12 +30,23 @@ import com.cmpe277.skibuddy.Utility.InputDialog;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.cmpe277.skibuddy.Utility.TimePickerFragment;
 import com.cmpe277.skibuddy.Utility.Utilities;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
-public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener, InputDialog.NoticeDialogListener {
+public class EventDetailsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener, InputDialog.NoticeDialogListener {
 
     private SessionManager session;
     private Context context;
@@ -51,6 +64,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private ArrayList<User> userDetails;
 
+    //get user location if event is active one
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private final static int GOOGLESERVICE_CONNECTION_FAILURE_RESOLUTION_REQUEST_NUMBER = 8787;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +80,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             setContentView(R.layout.activity_event_details);
 
             Bundle bundle = this.getIntent().getExtras();
-            if(bundle==null){
+            if(bundle==null  ||  (bundle.getSerializable("event") == null)){
                 return;
             }
             event = (Event)bundle.getSerializable("event");
@@ -102,14 +120,20 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             skiTrackerButton.setVisibility(View.INVISIBLE);
 
             populateEventDetails(event);
+
+            if(Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode())){
+                googleApiClient = new GoogleApiClient.Builder(this)
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this)
+                        .addApi(LocationServices.API)
+                        .build();
+            }
         }else{
             finish();
         }
 
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,7 +187,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     Log.d(Constatnts.TAG, "" + groupDetails.size());
 
                     List<String> userIds = new ArrayList<String>();
-                    for (Group group : groupDetails){
+                    for (Group group : groupDetails) {
                         userIds.add(group.getUserId());
                     }
 
@@ -232,6 +256,111 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             //do sth
         }
     }
+
+    public void onLocationChanged(Location location) {
+        System.out.println("<==============onLocationChanged===========> ");
+        System.out.println("loc change latt===========> " + location.getLatitude());
+        System.out.println("loc change long===========> " + location.getLongitude());
+        updateUserLocation(location.getLatitude(), location.getLongitude());
+    }
+
+    private void updateUserLocation(double latitude, double longitude) {
+        User loggedinUser = session.getLoggedInUserDetails();
+        loggedinUser.setLatitude(Double.toString(latitude));
+        loggedinUser.setLongitude(Double.toString(longitude));
+        loggedinUser.setLocationUpdateTime(getPacificCurrentDateTime());
+        UserDao.checkAndUpdateUser(loggedinUser);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode())){
+            stopLocationTracking();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode())){
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        if(Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode())){
+            startLocationTracking();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        if(Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode())){
+            if (connectionResult.hasResolution()) {
+                try {
+                    connectionResult.startResolutionForResult(this, GOOGLESERVICE_CONNECTION_FAILURE_RESOLUTION_REQUEST_NUMBER);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.i(Constatnts.TAG, "Location services error code -> " + connectionResult.getErrorCode());
+            }
+        }
+    }
+
+    private void startLocationTracking(){
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(20 * 1000)        // 20 second
+                .setFastestInterval(1 * 1000); // 1 second
+        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (location == null) {
+            System.out.println("<============= update location is  null ==============>");
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+        } else {
+            System.out.println("<============= update location is not null ==============>");
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+            //handleNewLocation(location);
+        }
+    }
+
+    private void stopLocationTracking(){
+        if (Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode()) && googleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+            googleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putSerializable("event", event);
+    }
+
+    private Date getPacificCurrentDateTime(){
+        //PMT date
+        Date date = null;
+        try{
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            df.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+            String pacificDate = df.format(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            date = sdf.parse(pacificDate);
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
 }
 
 
