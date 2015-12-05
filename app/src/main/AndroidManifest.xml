@@ -67,6 +67,12 @@
             android:theme="@style/NewTheme" >
             android:label="@string/title_activity_event_details" >
         </activity>
+
+        <activity
+            android:name=".UserDetailsActivity"
+            android:theme="@style/NewTheme" >
+            android:label="@string/title_activity_user_details" >
+        </activity>
     </application>
 
 </manifest>

@@ -47,6 +47,7 @@ public class RecordListAdapter extends ArrayAdapter<Record> {
                         @Override
                         public void receiveObjects(HashMap<String, Object> objectMap) {
                             Intent displayRecordIntent = new Intent(context, DisplayRecordActivity.class);
+                            displayRecordIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             Bundle extras = new Bundle();
                             extras.putSerializable("event", (Event) objectMap.get("event"));
                             extras.putSerializable("record", (Record) objectMap.get("record"));

@@ -11,6 +11,7 @@
     <string name="title_activity_ski_tracker">SkieTracker</string>
     <string name="title_activity_create_event">CreateEvent</string>
     <string name="title_activity_display_record">Record</string>
+    <string name="title_activity_user_details">User Details</string>
 
     <!-- activity_display_record strings -->
     <string name="display_record_record_name">Record Name:</string>

@@ -167,7 +167,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     userDetails = callback.getUserDetails();
                     Log.d(Constatnts.TAG, "" + userDetails.size());
 
-                    UserAdapter adapter = new UserAdapter(context, userDetails);
+                    UserAdapter adapter = new UserAdapter(context, userDetails, event);
                     listView.setAdapter(adapter);
                     ListUtils.setDynamicHeight(listView);
 

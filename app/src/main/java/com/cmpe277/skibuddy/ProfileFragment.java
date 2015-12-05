@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ProfileFragment extends Fragment implements View.OnClickListener, ParseReceiveAsyncObjectListener{
+public class ProfileFragment extends Fragment implements ParseReceiveAsyncObjectListener{
 
     private ImageView profilePic;
     private TextView userName;
@@ -60,9 +60,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
             updateUserDetails();
 
 
-            listView = (ListView)v.findViewById(R.id.recordsView);
+            //listView = (ListView)v.findViewById(R.id.recordsView);
             //load  records for user
-            RecordDao.getRecordsForUserId(session.getLoggedInMail(), this);
+            //RecordDao.getRecordsForUserId(session.getLoggedInMail(), this);
         }else{
             getActivity().finish();
         }
@@ -81,13 +81,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
             tagLine.setText(user.getTagLine());
     }
 
-    @Override
-    public void onClick(View v) {
-        switch(v.getId())
-        {
-
-        }
-    }
 
     public void displayRecordList(List<Record> recordList){
         listView.setAdapter(new RecordListAdapter(this.getActivity(), R.layout.record_item, recordList));
