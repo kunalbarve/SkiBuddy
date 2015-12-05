@@ -174,4 +174,41 @@ public class EventDao {
         });
     }
 
+
+    public static void getParticipatedEventDetailsForUser(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
+
+        Date currentDate = new Date();
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
+        query.whereContainedIn("objectId", eventIds);
+        query.whereLessThanOrEqualTo("endDate", currentDate);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.d(Constatnts.TAG, "Came in fetching event details" + objects.size());
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (ParseObject obj : objects) {
+                        Event event = new Event();
+                        event.setName(obj.getString("eventName"));
+                        event.setDescription(obj.getString("description"));
+                        event.setId(obj.getObjectId());
+                        event.setStartDate(obj.getDate("startDate"));
+                        event.setEndDate(obj.getDate("endDate"));
+                        event.setStartTime(obj.getString("startTime"));
+                        event.setEndTime(obj.getString("endTime"));
+
+                        events.add(event);
+                    }
+
+                    HashMap<String, Object> objectList = new HashMap<String, Object>();
+                    objectList.put("pastEventsForUserId",events);
+                    listenerObj.receiveObjects(objectList);
+
+                } else {
+                    Log.d("events", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
 }

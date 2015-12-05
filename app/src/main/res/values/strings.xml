@@ -36,4 +36,7 @@
     <string name="event_details_end_time">End Time:</string>
     <string name="event_details_event_participants">Event Participants:</string>
 
+    <!-- fragment_profile strings -->
+    <string name="fagment_profile_participated_events">Participated Events:</string>
+
 </resources>

@@ -32,7 +32,12 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
         Event event = getItem(position);
         ViewHolder viewHolder;
-        if (convertView == null) {
+        viewHolder = new ViewHolder();
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.simplelistitem, parent, false);
+        viewHolder.eventName = (TextView) convertView.findViewById(R.id.eventName);
+        viewHolder.eventDescription = (TextView) convertView.findViewById(R.id.eventDescription);
+        convertView.setTag(viewHolder.eventName);
+       /* if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.simplelistitem, parent, false);
             viewHolder.eventName = (TextView) convertView.findViewById(R.id.eventName);
@@ -40,7 +45,7 @@ public class EventsAdapter extends ArrayAdapter<Event> {
             convertView.setTag(viewHolder.eventName);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-        }
+        }*/
         viewHolder.eventName.setText(event.getName());
         viewHolder.eventDescription.setText(event.getDescription());
 

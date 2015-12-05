@@ -20,4 +20,6 @@ public class Constatnts {
     public static final String JOINED_MODE = "JOINED";
 
     public static final String INVITE_MODE = "INVITED";
+
+    public static final String PARTICIPATE_MODE = "PARTICIPATED";
 }
