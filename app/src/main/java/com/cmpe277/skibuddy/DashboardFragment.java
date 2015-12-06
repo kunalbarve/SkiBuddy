@@ -23,6 +23,7 @@ import com.cmpe277.skibuddy.Models.Group;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.cmpe277.skibuddy.Utility.Utilities;
+import com.google.android.gms.location.LocationListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private ListView listView3;
     private Button createEventButton;
 
+
     public DashboardFragment() {
 
     }
@@ -58,6 +60,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         context = getActivity().getApplicationContext();
 
         session = new SessionManager(context);
+
 
         listView = (ListView) v.findViewById(R.id.listView1);
         listView2 = (ListView) v.findViewById(R.id.listView2);

@@ -19,6 +19,7 @@ import com.cmpe277.skibuddy.Utility.Utilities;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SessionManager session;
+    private UserLocationListner userLocationListner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Button dashboardButton = (Button)findViewById(R.id.dashboardButton);
 //            dashboardButton.setOnClickListener(this);
 
+
+            userLocationListner = new UserLocationListner(getApplicationContext(), session.getLoggedInUserDetails());
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -109,5 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userLocationListner.stopLocationTracking();
     }
 }

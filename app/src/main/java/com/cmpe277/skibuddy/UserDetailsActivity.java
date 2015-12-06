@@ -11,11 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmpe277.skibuddy.DAOs.RecordDao;
+import com.cmpe277.skibuddy.DAOs.UserDao;
+import com.cmpe277.skibuddy.ListUtility.CallbackUtils;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.Models.User;
@@ -37,6 +40,7 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
     private TextView userName;
     private TextView userEmail;
     private TextView tagLine;
+    private Button displayLocationButton;
     private SessionManager session;
 
     private Context context;
@@ -56,17 +60,31 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
 
         setContentView(R.layout.activity_user_details);
 
-        profilePic = (ImageView) findViewById(R.id.profilePicUserDetails);
-        userName = (TextView) findViewById(R.id.userNameUserDetails);
-        userEmail = (TextView) findViewById(R.id.emailUserDetails);
-        tagLine = (TextView) findViewById(R.id.tagLineUserDetails);
-
         Bundle bundle = this.getIntent().getExtras();
         if(bundle==null){
             return;
         }
         event = (Event)bundle.getSerializable("event");
         user = (User)bundle.getSerializable("user");
+
+
+        profilePic = (ImageView) findViewById(R.id.profilePicUserDetails);
+        userName = (TextView) findViewById(R.id.userNameUserDetails);
+        userEmail = (TextView) findViewById(R.id.emailUserDetails);
+        tagLine = (TextView) findViewById(R.id.tagLineUserDetails);
+        if(Constatnts.ACTIVATED_MODE.equalsIgnoreCase(event.getMode())){
+            displayLocationButton = (Button)findViewById(R.id.displayUserLocation);
+            displayLocationButton.setVisibility(View.VISIBLE);
+            final ParseReceiveAsyncObjectListener listener = this;
+            displayLocationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> userIds = new ArrayList<String>();
+                    userIds.add(user.getUserId());
+                    UserDao.getUserDetails(userIds,listener);
+                }
+            });
+        }
 
         listView = (ListView)findViewById(R.id.recordsViewUserDetails);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,9 +112,28 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
 
     @Override
     public void receiveObjects(HashMap<String, Object> objectMap) {
+        if(objectMap==null){
+            return;
+        }
         if(objectMap.containsKey("records")){
             recordList=(ArrayList<Record>)objectMap.get("records");
             displayRecordList(recordList);
+        }else {
+            if(objectMap.containsKey("user_callback")){
+                ArrayList<User> userDetails = ((CallbackUtils)objectMap.get("user_callback")).getUserDetails();
+                System.out.println("<===here "+userDetails.size());
+                if(userDetails.size()!=1){
+                    return;
+                }
+                User user1 = userDetails.get(0);
+                Intent displayUserLocationIntent = new Intent(context, UserLocationActivity.class);
+                displayUserLocationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle extras = new Bundle();
+                extras.putSerializable("user", user1);
+                extras.putSerializable("event", event);
+                displayUserLocationIntent.putExtras(extras);
+                context.startActivity(displayUserLocationIntent);
+            }
         }
     }
 

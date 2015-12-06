@@ -32,6 +32,10 @@ public class SessionManager {
 
     public static final String KEY_IMAGE_URL = "IMAGE_URL";
 
+    public static final String KEY_LATITUDE = "LATITUDE";
+    public static final String KEY_LONGITUDE = "LONGITUDE";
+    public static final String KEY_LOCATION_UPDATE_TIME = "LOCATION_UPDATE_TIME";
+
     private static final String IS_DISCONNECTED = "IS_DISCONNECTED";
 
     private static final String TOKEN = "TOKEN";
@@ -49,6 +53,8 @@ public class SessionManager {
         editor.putString(KEY_TAG_LINE, user.getTagLine());
         editor.putString(KEY_PROFILE_URL, user.getUrl());
         editor.putString(KEY_IMAGE_URL, user.getImage());
+        editor.putString(KEY_LATITUDE, user.getLatitude());
+        editor.putString(KEY_LONGITUDE, user.getLongitude());
         editor.commit();
 
         Intent i = new Intent(_context, MainActivity.class);
@@ -114,6 +120,8 @@ public class SessionManager {
         user.setImage(pref.getString(KEY_IMAGE_URL, ""));
         user.setTagLine(pref.getString(KEY_TAG_LINE, ""));
         user.setUrl(pref.getString(KEY_PROFILE_URL, ""));
+        user.setLatitude(pref.getString(KEY_LATITUDE, ""));
+        user.setLongitude(pref.getString(KEY_LONGITUDE, ""));
         return user;
     }
 

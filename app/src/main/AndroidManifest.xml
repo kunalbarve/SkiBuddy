@@ -84,7 +84,6 @@
             android:label="@string/title_activity_user_details" >
         </activity>
 
-
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false">
@@ -104,7 +103,12 @@
             </intent-filter>
         </receiver>
 
-
+        <activity
+            android:name=".UserLocationActivity"
+            android:theme="@style/NewTheme" >
+            android:label="@string/title_activity_user_location" >
+        </activity>
+        
     </application>
 
 </manifest>

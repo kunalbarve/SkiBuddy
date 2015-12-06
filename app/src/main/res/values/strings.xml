@@ -28,6 +28,7 @@
     <string name="ski_tracker_total_time">Total Time:</string>
     <string name="ski_tracker_total_time_value">00:00:00</string>
     <string name="title_activity_event_details">EventDetailsActivity</string>
+    <string name="ski_tracker_display_user_location">Display Location</string>
 
     <!-- activity_event_details strings -->
     <string name="event_details_event_name">Event Name:</string>
@@ -38,5 +39,10 @@
 
     <!-- fragment_profile strings -->
     <string name="fagment_profile_participated_events">Participated Events:</string>
+
+    <!-- activity_user_location strings -->
+    <string name="user_location_activity_your_location">Your Location</string>
+    <string name="user_location_activity_user_location">User Location</string>
+    <string name="title_activity_user_location">User Location</string>
 
 </resources>

@@ -63,6 +63,9 @@ public class UserDao {
                         user.setTagLine(obj.getString("tagLine"));
                         user.setImage(obj.getString("image"));
                         user.setUserName(obj.getString("userName"));
+                        user.setLatitude(obj.getString("latitude"));
+                        user.setLongitude(obj.getString("longitude"));
+                        user.setLocationUpdateTime(obj.getDate("locationUpdateTime"));
                         userDetails.add(user);
                     }
 
