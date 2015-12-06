@@ -2,10 +2,13 @@ package com.cmpe277.skibuddy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -82,6 +85,7 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
         updateUserDetails();
         //load  records for user
         RecordDao.getRecordsForUserId(user.getUserId(), event.getId(), this);
+        setTitle("Explore Users");
     }
 
     public void displayRecordList(List<Record> recordList){
@@ -105,4 +109,35 @@ public class UserDetailsActivity extends AppCompatActivity implements ParseRecei
         tagLine.setText(user.getTagLine());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            session.logoutUser();
+            finish();
+            return true;
+        }else if(id == R.id.updateProfile){
+            String url = session.getLoggedInUserDetails().getUrl();
+            if(url.equals(""))
+                Utilities.shortMsg(getApplicationContext(), "User profile information missing. Try later!");
+            else{
+                session.logoutUser();
+                finish();
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

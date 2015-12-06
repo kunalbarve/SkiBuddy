@@ -1,12 +1,16 @@
 package com.cmpe277.skibuddy;
 
+import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import com.cmpe277.skibuddy.DAOs.RecordDao;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Record;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -88,6 +93,7 @@ public class SkiTrackerActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ski_tracker);
+
 
         session = new SessionManager(getApplicationContext());
 
@@ -359,5 +365,37 @@ public class SkiTrackerActivity extends FragmentActivity implements
         }
         path += lattitudeList.get(locationDetail)+":"+longitudeList.get(locationDetail);
         record.setPath(path);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            session.logoutUser();
+            finish();
+            return true;
+        }else if(id == R.id.updateProfile){
+            String url = session.getLoggedInUserDetails().getUrl();
+            if(url.equals(""))
+                Utilities.shortMsg(getApplicationContext(), "User profile information missing. Try later!");
+            else{
+                session.logoutUser();
+                finish();
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

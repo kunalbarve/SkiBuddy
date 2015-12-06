@@ -50,6 +50,7 @@
         <activity
             android:name=".SkiTrackerActivity"
             android:label="@string/title_activity_ski_tracker"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/NewTheme" >
         </activity>
 
@@ -78,6 +79,7 @@
 
         <activity
             android:name=".UserDetailsActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/NewTheme" >
             android:label="@string/title_activity_user_details" >
         </activity>

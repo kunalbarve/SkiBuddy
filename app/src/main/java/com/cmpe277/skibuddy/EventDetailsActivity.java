@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -132,7 +133,7 @@ public class EventDetailsActivity extends AppCompatActivity implements GoogleApi
             finish();
         }
 
-        setTitle("Event Details");
+        setTitle("Explore Events");
     }
 
     @Override
@@ -148,6 +149,19 @@ public class EventDetailsActivity extends AppCompatActivity implements GoogleApi
         if (id == R.id.logout) {
             session.logoutUser();
             finish();
+            return true;
+        }else if(id == R.id.updateProfile){
+            String url = session.getLoggedInUserDetails().getUrl();
+            if(url.equals(""))
+                Utilities.shortMsg(getApplicationContext(), "User profile information missing. Try later!");
+            else{
+                session.logoutUser();
+                finish();
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
             return true;
         }
 
