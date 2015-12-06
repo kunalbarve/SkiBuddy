@@ -3,6 +3,7 @@ package com.cmpe277.skibuddy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.cmpe277.skibuddy.ListUtility.ListUtils;
 import com.cmpe277.skibuddy.Models.Event;
 import com.cmpe277.skibuddy.Models.Group;
 import com.cmpe277.skibuddy.Utility.Constatnts;
+import com.cmpe277.skibuddy.Utility.Mailer;
 import com.cmpe277.skibuddy.Utility.SessionManager;
 import com.cmpe277.skibuddy.Utility.Utilities;
 import com.google.android.gms.location.LocationListener;
@@ -153,7 +155,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     Log.d(Constatnts.TAG, "" + activeEvents.size());
                     EventsAdapter adapter1 = new EventsAdapter(context, activeEvents);
                     listView.setAdapter(adapter1);
-                    if(activeEvents.size() >0)
+                    if (activeEvents.size() > 0)
                         ListUtils.setDynamicHeight(listView);
 
                 } catch (Exception e) {
@@ -174,7 +176,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     Log.d(Constatnts.TAG, "" + participatingEvents.size());
                     EventsAdapter adapter2 = new EventsAdapter(context, participatingEvents);
                     listView2.setAdapter(adapter2);
-                    if(participatingEvents.size() >0)
+                    if (participatingEvents.size() > 0)
                         ListUtils.setDynamicHeight(listView2);
 
                 } catch (Exception e) {
@@ -195,7 +197,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     Log.d(Constatnts.TAG, "" + invitedEvents.size());
                     EventsAdapter adapter3 = new EventsAdapter(context, invitedEvents);
                     listView3.setAdapter(adapter3);
-                    if(invitedEvents.size() >0)
+                    if (invitedEvents.size() > 0)
                         ListUtils.setDynamicHeight(listView3);
 
                 } catch (Exception e) {
@@ -241,6 +243,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             getGroupDetails();
         }
     }
+
 }
 
 

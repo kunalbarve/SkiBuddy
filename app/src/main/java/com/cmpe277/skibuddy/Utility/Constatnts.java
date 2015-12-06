@@ -26,4 +26,9 @@ public class Constatnts {
     public static final String SUBSCRIBE_MODE = "SUBSCRIBE";
 
     public static final String UN_SUBSCRIBE_MODE = "UN_SUBSCRIBE";
+
+    public static final String SENDER_MAIL = "cmpe277.skibuddy@gmail.com";
+
+    public static final String SENDER_PASSWORD = "skibuddy";
+
 }

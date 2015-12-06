@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.cmpe277.skibuddy.Models.Event;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -70,6 +74,42 @@ public class Utilities {
         }
 
         return date;
+    }
+
+    private static class SendMail extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String isSuccessful = "NO";
+            String senderId = params[0];
+            String receiverId = params[1];
+            String eventName = params[2];
+            Mailer m = new Mailer(Constatnts.SENDER_MAIL, Constatnts.SENDER_PASSWORD);
+
+            String[] toArr = {receiverId};
+            m.set_to(toArr);
+            m.set_from(senderId);
+            m.set_subject("Get ready for "+eventName+ " event.");
+            m.set_body("Dear User, you have been added to "+eventName+" by "+senderId+". Get ready for fun.");
+
+            try {
+                if(m.send())
+                    isSuccessful = "YES";
+
+            } catch(Exception e) {
+                isSuccessful = "NO";
+                Log.e(Constatnts.TAG, "Could not send email", e);
+            }
+            return isSuccessful;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+    public static void sendMail(String eventName, String senderId, String receiverId){
+        new SendMail().execute(senderId, receiverId, eventName);
     }
 
     public void createDialogForMultipleCheckboxes(final Activity youractivity){

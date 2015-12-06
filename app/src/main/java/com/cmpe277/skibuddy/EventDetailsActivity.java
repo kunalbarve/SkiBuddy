@@ -275,7 +275,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             if(checkIfUserAdded(emailAddress)){
                 Utilities.longMsg(context, "User already added to the event.");
             }else{
-                GroupDao.addUserToEvent(event, emailAddress, context);
+                String senderMail = session.getLoggedInMail();
+                String receiverMail = emailAddress;
+                GroupDao.addUserToEvent(event, senderMail, receiverMail, context);
             }
         }
     }

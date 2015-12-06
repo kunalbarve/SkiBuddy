@@ -90,21 +90,21 @@ public class GroupDao {
         });
     }
 
-    public static void addUserToEvent(Event event, String emailAddress, Context context) {
-        UserDao.checkUserAvailableForEvent(emailAddress);
-        createGroup(event.getId(), emailAddress, context);
+    public static void addUserToEvent(Event event, String senderMail, String receiverMail, Context context) {
+        UserDao.checkUserAvailableForEvent(receiverMail);
+        createGroup(event, senderMail, receiverMail, context);
     }
 
-    private static void createGroup(final String eventId, final String userId, final Context context){
+    private static void createGroup(final Event event, final String senderMail, final String receiverMail, final Context context){
         ParseObject group = new ParseObject("Groups");
-        group.put("userId", userId);
-        group.put("eventId", eventId);
+        group.put("userId", receiverMail);
+        group.put("eventId", event.getId());
         group.put("flag", "0");
         group.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    //Send Notification and mail
+                    Utilities.sendMail(senderMail, receiverMail, event.getName());
                     Utilities.shortMsg(context, "User added successfully to the event.");
                 } else {
                     Log.e(Constatnts.TAG, e.getMessage());
