@@ -40,22 +40,6 @@ public class RecordListAdapter extends ArrayAdapter<Record> {
             recordName = (TextView)row.findViewById(R.id.recordNameRow);
             System.out.println("<====recordid "+recordList.get(position).getId());
             recordName.setText(recordList.get(position).getEventName()+" "+recordList.get(position).getStartTime()+" "+recordList.get(position).getEndTime());
-            recordName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RecordDao.getRecordAndOpenIntent(recordList.get(position).getId().trim(), new ParseReceiveAsyncObjectListener() {
-                        @Override
-                        public void receiveObjects(HashMap<String, Object> objectMap) {
-                            Intent displayRecordIntent = new Intent(context, DisplayRecordActivity.class);
-                            Bundle extras = new Bundle();
-                            extras.putSerializable("event", (Event) objectMap.get("event"));
-                            extras.putSerializable("record", (Record) objectMap.get("record"));
-                            displayRecordIntent.putExtras(extras);
-                            context.startActivity(displayRecordIntent);
-                        }
-                    });
-                }
-            });
         }catch(Exception e){
             e.printStackTrace();
         }

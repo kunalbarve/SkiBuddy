@@ -60,9 +60,10 @@ public class RecordDao {
         });
     }
 
-    public static void getRecordsForUserId(String userId, final ParseReceiveAsyncObjectListener listnerForObjects){
+    public static void getRecordsForUserId(String userId, String eventId,final ParseReceiveAsyncObjectListener listnerForObjects){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Record");
         query.whereEqualTo("userId", userId);
+        query.whereEqualTo("eventId", eventId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {

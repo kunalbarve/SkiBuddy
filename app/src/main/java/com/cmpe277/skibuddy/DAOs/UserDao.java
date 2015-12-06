@@ -79,4 +79,25 @@ public class UserDao {
             }
         });
     }
+
+    public static void checkUserAvailableForEvent(final String userId){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("userId", userId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                ParseObject person = null;
+                if (e == null && objects != null) {
+                    if(objects.size() == 0){
+                        person = new ParseObject("User");
+                        person.put("userId", userId);
+                        person.saveInBackground();
+                    }
+                } else {
+                    Log.e(Constatnts.TAG, e.getMessage());
+                }
+            }
+        });
+    }
+
 }
