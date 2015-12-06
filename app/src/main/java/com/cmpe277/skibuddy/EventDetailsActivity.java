@@ -225,10 +225,11 @@ public class EventDetailsActivity extends AppCompatActivity implements GoogleApi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.subscribeButton:
-
+                updateGroupDetails(Constatnts.SUBSCRIBE_MODE);
                 break;
 
             case R.id.unSubscribeButton:
+                updateGroupDetails(Constatnts.UN_SUBSCRIBE_MODE);
                 break;
 
             case R.id.addParticipantButton:
@@ -247,13 +248,33 @@ public class EventDetailsActivity extends AppCompatActivity implements GoogleApi
         }
     }
 
+    private void updateGroupDetails(String mode) {
+        GroupDao.updateGroup(event.getId(), session.getLoggedInMail(), mode, new ParseReceiveAsyncObjectListener() {
+            @Override
+            public void receiveObjects(HashMap<String, Object> objectMap) {
+                boolean result = (boolean)objectMap.get("update_group_callback");
+                if(result){
+                    Utilities.shortMsg(context, "Event subscription updated.");
+                    setResult(1111);
+                    finish();
+                }else{
+                    Utilities.shortMsg(context, "error occurred, please try later!");
+                }
+            }
+        });
+    }
+
     @Override
     public void onDialogPositiveClick(String emailAddress) {
-        Log.d(Constatnts.TAG,"Clicked on add"+emailAddress);
+        Log.d(Constatnts.TAG, "Clicked on add" + emailAddress);
         if(emailAddress.equals("") || !Utilities.isValidEmailAddress(emailAddress)){
             Utilities.shortMsg(context, emailAddress +" is not a valid email.");
         }else{
-            //do sth
+            if(checkIfUserAdded(emailAddress)){
+                Utilities.longMsg(context, "User already added to the event.");
+            }else{
+                GroupDao.addUserToEvent(event, emailAddress, context);
+            }
         }
     }
 
@@ -359,6 +380,18 @@ public class EventDetailsActivity extends AppCompatActivity implements GoogleApi
         }
 
         return date;
+    }
+
+    private boolean checkIfUserAdded(String emailAddress) {
+        boolean userAdded = false;
+        for(User user : userDetails){
+            if(user.getUserId().equalsIgnoreCase(emailAddress)) {
+                userAdded = true;
+                break;
+            }
+        }
+        return userAdded;
+
     }
 
 }

@@ -106,7 +106,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
             Intent eventDetailIntent = new Intent(context, EventDetailsActivity.class);
             eventDetailIntent.putExtras(extras);
-            startActivity(eventDetailIntent);
+            startActivityForResult(eventDetailIntent, 1111);
             Log.d(Constatnts.TAG, "EventId:" + event.toString());
         }else
             Utilities.shortMsg(context, "Event details not available.");
@@ -150,7 +150,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     Log.d(Constatnts.TAG, "" + activeEvents.size());
                     EventsAdapter adapter1 = new EventsAdapter(context, activeEvents);
                     listView.setAdapter(adapter1);
-                    ListUtils.setDynamicHeight(listView);
+                    if(activeEvents.size() >0)
+                        ListUtils.setDynamicHeight(listView);
 
                 } catch (Exception e) {
                     Log.e(Constatnts.TAG, e.getMessage());
@@ -170,7 +171,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     Log.d(Constatnts.TAG, "" + participatingEvents.size());
                     EventsAdapter adapter2 = new EventsAdapter(context, participatingEvents);
                     listView2.setAdapter(adapter2);
-                    ListUtils.setDynamicHeight(listView2);
+                    if(participatingEvents.size() >0)
+                        ListUtils.setDynamicHeight(listView2);
 
                 } catch (Exception e) {
                     Log.e(Constatnts.TAG, e.getMessage());
@@ -190,7 +192,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     Log.d(Constatnts.TAG, "" + invitedEvents.size());
                     EventsAdapter adapter3 = new EventsAdapter(context, invitedEvents);
                     listView3.setAdapter(adapter3);
-                    ListUtils.setDynamicHeight(listView3);
+                    if(invitedEvents.size() >0)
+                        ListUtils.setDynamicHeight(listView3);
 
                 } catch (Exception e) {
                     Log.e(Constatnts.TAG, e.getMessage());
