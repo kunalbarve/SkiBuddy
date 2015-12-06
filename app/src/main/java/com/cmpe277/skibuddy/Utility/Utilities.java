@@ -89,7 +89,7 @@ public class Utilities {
             m.set_to(toArr);
             m.set_from(senderId);
             m.set_subject("Get ready for "+eventName+ " event.");
-            m.set_body("Dear User, you have been added to "+eventName+" by "+senderId+". Get ready for fun.");
+            m.set_body("Dear User, you have been added by "+senderId+". Get ready for fun.");
 
             try {
                 if(m.send())
