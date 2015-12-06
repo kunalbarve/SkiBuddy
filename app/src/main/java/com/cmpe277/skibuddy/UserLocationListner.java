@@ -85,8 +85,10 @@ public class UserLocationListner implements GoogleApiClient.ConnectionCallbacks,
     }
 
     public void stopLocationTracking(){
-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-        googleApiClient.disconnect();
+        if(googleApiClient!=null && googleApiClient.isConnected()){
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+            googleApiClient.disconnect();
+        }
     }
 
     private Date getPacificCurrentDateTime(){
