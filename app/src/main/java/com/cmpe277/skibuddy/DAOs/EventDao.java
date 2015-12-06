@@ -54,10 +54,6 @@ public class EventDao {
                         event.setStartTime(obj.getString("startTime"));
                         event.setEndTime(obj.getString("endTime"));
 
-                        Log.d("EVENT", event.toString());
-                        String current = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z").format(new Date());
-                        Log.d("EVENT", current);
-
                         events.add(event);
                     }
 
