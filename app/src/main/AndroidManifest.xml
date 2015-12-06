@@ -65,7 +65,7 @@
             android:name=".EventDetailsActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/NewTheme" >
-            android:label="@string/title_activity_event_details" >
+            android:label="Event Details" >
         </activity>
     </application>
 

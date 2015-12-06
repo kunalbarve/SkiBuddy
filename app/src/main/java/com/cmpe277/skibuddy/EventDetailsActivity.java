@@ -88,7 +88,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             finish();
         }
 
-
+        setTitle("Event Details");
     }
 
 
