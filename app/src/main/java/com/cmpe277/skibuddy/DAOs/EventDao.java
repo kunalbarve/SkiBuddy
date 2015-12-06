@@ -13,12 +13,14 @@ import com.cmpe277.skibuddy.ParseReceiveAsyncObjectListener;
 import com.cmpe277.skibuddy.R;
 import com.cmpe277.skibuddy.Utility.Constatnts;
 import com.cmpe277.skibuddy.Utility.SessionManager;
+import com.cmpe277.skibuddy.Utility.Utilities;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +33,7 @@ public class EventDao {
 
     public static void getActiveEventDetails(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
 
-        Date currentDate = new Date();
+        Date currentDate = Utilities.getPacificCurrentDateTime();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
         query.whereContainedIn("objectId", eventIds);
         query.whereLessThanOrEqualTo("startDate", currentDate);
@@ -51,6 +53,10 @@ public class EventDao {
                         event.setEndDate(obj.getDate("endDate"));
                         event.setStartTime(obj.getString("startTime"));
                         event.setEndTime(obj.getString("endTime"));
+
+                        Log.d("EVENT", event.toString());
+                        String current = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z").format(new Date());
+                        Log.d("EVENT", current);
 
                         events.add(event);
                     }
@@ -72,7 +78,7 @@ public class EventDao {
 
     public static void getParticipatingEvents(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
 
-        Date currentDate = new Date();
+        Date currentDate = Utilities.getPacificCurrentDateTime();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
         query.whereContainedIn("objectId", eventIds);
         query.whereGreaterThan("startDate", currentDate);
@@ -112,7 +118,6 @@ public class EventDao {
 
     public static void getInvitedEvents(List<String> eventIds, final ParseReceiveAsyncObjectListener listenerObj){
 
-        Date currentDate = new Date();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Event");
         query.whereContainedIn("objectId", eventIds);
         query.findInBackground(new FindCallback<ParseObject>() {

@@ -131,6 +131,7 @@ public class GroupDao {
                         }else if(mode.equalsIgnoreCase(Constatnts.UN_SUBSCRIBE_MODE)){
                             group.put("flag", "0");
                         }
+                        group.saveInBackground();
                         objectMap.put("update_group_callback", true);
                     }else{
                         objectMap.put("update_group_callback", false);

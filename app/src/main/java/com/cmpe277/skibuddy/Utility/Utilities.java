@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,11 +28,10 @@ public class Utilities {
     }
 
     public static  String getDateString(Date date){
-        String result = "";
-
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        result = df.format(date);
-        return result;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+        String pacificDate = sdf.format(date);
+        return pacificDate;
     }
 
     public static boolean isValidEmailAddress(String email) {
@@ -53,6 +53,23 @@ public class Utilities {
             e.printStackTrace();
         }
         return  newDate;
+    }
+
+    public static Date getPacificCurrentDateTime(){
+        //PMT date
+        Date date = null;
+        try{
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            df.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+            String pacificDate = df.format(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            date = sdf.parse(pacificDate);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return date;
     }
 
     public void createDialogForMultipleCheckboxes(final Activity youractivity){
