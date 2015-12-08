@@ -37,20 +37,18 @@
 
             <Button
                 android:id="@+id/unSubscribeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_style"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@mipmap/reject"
                 android:padding="5dp"
-                android:layout_marginRight="15dp"
-                android:text="UnSubscribe" />
+                android:layout_marginRight="15dp" />
 
             <Button
                 android:id="@+id/addParticipantButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_style"
-                android:padding="5dp"
-                android:text="Add Participant" />
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@mipmap/adduser"
+                android:padding="5dp" />
         </LinearLayout>
 
         <Button
