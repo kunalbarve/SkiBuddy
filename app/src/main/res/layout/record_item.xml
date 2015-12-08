@@ -15,7 +15,7 @@
             android:id="@+id/recordNameRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
