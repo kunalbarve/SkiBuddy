@@ -19,13 +19,12 @@
 
         <Button
             android:id="@+id/subscribeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="5dp"
-            android:background="@drawable/edit_style"
-            android:padding="5dp"
-            android:text="Subscribe" />
+            android:background="@mipmap/accept"
+            android:padding="5dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
