@@ -1,9 +1,12 @@
 package com.cmpe277.skibuddy;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Outline;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -81,7 +85,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> av, View v, int pos,long id) {
+            public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
                 Event event = participatingEvents.get(pos);
                 getEventDetails(event, Constatnts.JOINED_MODE);
             }
@@ -97,6 +101,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         createEventButton = (Button) v.findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(this);
+
+
 
         return v;
 
