@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -87,10 +88,9 @@ public class Utilities {
 
             String[] toArr = {receiverId};
             m.set_to(toArr);
-            m.set_from(senderId);
-            m.set_subject("Get ready for "+eventName+ " event.");
+            m.set_from(senderId.trim());
+            m.set_subject("Get ready for " + eventName + " event.");
             m.set_body("Dear User, you have been added by "+senderId+". Get ready for fun.");
-
             try {
                 if(m.send())
                     isSuccessful = "YES";
@@ -108,8 +108,8 @@ public class Utilities {
         }
     }
 
-    public static void sendMail(String eventName, String senderId, String receiverId){
-        new SendMail().execute(senderId, receiverId, eventName);
+    public static void sendMail(String senderName, String receiverName, String eventName){
+        new SendMail().execute(senderName, receiverName, eventName);
     }
 
     public void createDialogForMultipleCheckboxes(final Activity youractivity){
