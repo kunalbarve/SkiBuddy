@@ -28,7 +28,7 @@ Student ID: 010003409
 
 #### Build Instructions:
 
-* Download zip foleder from canvas.
+* Download as a zip.
 * Extract it. 
         OR
 * Clone the the project using url: git clone https://github.com/kunalbarve/SkiBuddy.git.
