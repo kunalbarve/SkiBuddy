@@ -30,9 +30,8 @@ Student ID: 010003409
 
 * Download zip foleder from canvas.
 * Extract it. 
-OR
+        OR
 * Clone the the project using url: git clone https://github.com/kunalbarve/SkiBuddy.git.
-
 * Import the project in Android SDK.
 * Build the Project.
 * Run.
