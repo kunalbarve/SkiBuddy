@@ -1,9 +1,8 @@
 # SkiBuddy
 SkiBuddy allows user to keep track of all skiing events and track participants in real time.
 
-### Project Name : Ski Buddy
 
-####Team Menbers Details:
+####Team Members Details:
 
 Name: Kunal Barve
 Email: kunal.barve@sjsu.edu
@@ -30,7 +29,7 @@ Student ID: 010003409
 
 * Download as a zip.
 * Extract it. 
-        OR
+        ---OR
 * Clone the the project using url: git clone https://github.com/kunalbarve/SkiBuddy.git.
 * Import the project in Android SDK.
 * Build the Project.
